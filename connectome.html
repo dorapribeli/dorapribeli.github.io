@@ -229,7 +229,8 @@ function orderParam(th){let c=0,s=0;for(let i=0;i<th.length;i++){c+=Math.cos(th[
 /* ---------------------------- alkalmazás ---------------------------- */
 (function(){
 // ?embed: csak a forgó 3D agy, vezérlők nélkül (a főoldali projektkártya ezt ágyazza be)
-const EMBED=/[?&]embed\b/.test(location.search);
+const LOGO=/[?&]logo\b/.test(location.search);   // ?logo: átlátszó háttér, álló nézet (logókép készítéséhez)
+const EMBED=LOGO||/[?&]embed\b/.test(location.search);
 if(EMBED)document.documentElement.classList.add('embed');
 // 50%-nyi véletlen keresztkötést előre legenerálunk; a „Plusz élek” csúszka ennek egy
 // elejét kapcsolja be (0–50%), így a hálózat folyamatosan átalakítható.
@@ -256,9 +257,9 @@ const TRANS=6, hist=[];   // {t,a,b}
 
 /* ---- three.js ---- */
 const canvas=document.getElementById('gl');
-const renderer=new THREE.WebGLRenderer({canvas,antialias:true});
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:LOGO,preserveDrawingBuffer:LOGO});
 renderer.setPixelRatio(Math.min(devicePixelRatio,2));
-renderer.setClearColor(0x05060c,1);
+renderer.setClearColor(0x05060c,LOGO?0:1);
 const scene=new THREE.Scene();
 const camera=new THREE.PerspectiveCamera(42,1,0.1,100);
 camera.position.set(0,0.4,7.2);
@@ -423,9 +424,9 @@ function frame(now){
     const tx=portrait?0:off,ty=portrait?-off:0;b.x+=(tx-b.x)*ease;b.y+=(ty-b.y)*ease;
     b.g.position.set(b.x,b.y,0);b.g.rotation.set(rotX,rotY,0);
   });
-  const camZ=EMBED?4.9:(view===2?(portrait?15:12.5):(innerWidth<700?9.7:7.2))*zoom;
+  const camZ=LOGO?5.6:EMBED?4.9:(view===2?(portrait?15:12.5):(innerWidth<700?9.7:7.2))*zoom;
   camera.position.z+=(camZ-camera.position.z)*ease;
-  idle+=rdt;if(EMBED)rotY+=rdt*0.22;else if(!drag&&idle>1.5)rotY+=rdt*0.12;
+  idle+=rdt;if(EMBED&&!LOGO)rotY+=rdt*0.22;else if(!drag&&idle>1.5)rotY+=rdt*0.12;
   const op=[orderParam(TH[0]),orderParam(TH[1])],st=[stats('a'),stats('b')];
   brains.forEach((b,s)=>b.update(TH[s],op[s][0]));
   renderer.render(scene,camera);
