@@ -276,8 +276,8 @@
 
 /* ---------- Logo (still image of the 3D brain from the project) + favicon ---------- */
 (function(){
-  document.querySelectorAll(".logo").forEach(function(a){a.insertAdjacentHTML("afterbegin",'<img src="assets/logo.png" alt="" width="60" height="38">')});
-  var ic=document.createElement("link");ic.rel="icon";ic.type="image/png";ic.href="assets/favicon.png";document.head.appendChild(ic);
+  document.querySelectorAll(".logo").forEach(function(a){a.insertAdjacentHTML("afterbegin",'<img src="assets/logo.png?v=2" alt="" width="60" height="38">')});
+  var ic=document.createElement("link");ic.rel="icon";ic.type="image/png";ic.href="assets/favicon.png?v=2";document.head.appendChild(ic);
 })();
 
 /* ---------- Floating "Support me" button (right side) with the Ko-fi donation panel ---------- */
