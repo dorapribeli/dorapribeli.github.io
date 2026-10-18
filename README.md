@@ -5,8 +5,8 @@ Egyszerű HTML/CSS/JavaScript, nem kell hozzá telepíteni semmit.
 
 | | |
 |---|---|
-| **Élő oldal** | https://dorapr.github.io |
-| **GitHub-repó** | https://github.com/dorapr/dorapr.github.io |
+| **Élő oldal** | https://dorapribeli.github.io |
+| **GitHub-repó** | https://github.com/dorapribeli/dorapribeli.github.io |
 | **Mappa a gépeden** | `Documents/weboldal` |
 
 A `Documents/weboldal` mappa össze van kötve a GitHub-repóval: amit itt módosítasz, azt egy feltöltéssel (lásd 3. pont) élesíted.
@@ -52,7 +52,7 @@ Ha módosítasz egy fájlt, mentsd el, és a böngészőben nyomj **Cmd + R**-t 
 
 ## 3. Változtatások feltöltése a GitHub Pagesre
 
-Az oldal már fent van a **https://dorapr.github.io** címen, a GitHub Pages be van kapcsolva (`main` branch, `/ (root)`).
+Az oldal már fent van a **https://dorapribeli.github.io** címen, a GitHub Pages be van kapcsolva (`main` branch, `/ (root)`).
 Ha módosítasz valamit, azt az alábbi módok egyikével töltöd fel. **1–2 perc múlva** frissül az élő oldal. Ha nem látod a változást, nyomj **Cmd + Shift + R**-t a böngészőben.
 
 ### A) Terminálból (3 parancs)
@@ -72,13 +72,13 @@ Ha előtte meg akarod nézni, mit változtattál: `git status` (melyik fájlok) 
 
 ### B) GitHub Desktoppal (gombokkal)
 
-1. Töltsd le: https://desktop.github.com, és jelentkezz be a `dorapr` fiókkal.
+1. Töltsd le: https://desktop.github.com, és jelentkezz be a `dorapribeli` fiókkal.
 2. **File → Add local repository…**, és válaszd ki a `Documents/weboldal` mappát.
 3. Ettől kezdve a változtatásaid bal oldalt megjelennek. Írj lent egy rövid üzenetet, majd kattints a **Commit to main**, végül a **Push origin** gombra.
 
 ### C) Böngészőből
 
-A https://github.com/dorapr/dorapr.github.io oldalon: **Add file → Upload files**, húzd be a módosított fájlt, majd **Commit changes**. Almappában lévő fájlnál (pl. `assets/style.css`) előbb lépj be a repóban abba a mappába.
+A https://github.com/dorapribeli/dorapribeli.github.io oldalon: **Add file → Upload files**, húzd be a módosított fájlt, majd **Commit changes**. Almappában lévő fájlnál (pl. `assets/style.css`) előbb lépj be a repóban abba a mappába.
 
 > Ha a böngészőből töltesz fel, a gépeden lévő mappa nem tud róla. A következő terminálos feltöltés előtt ezért futtasd: `git pull`.
 
@@ -110,7 +110,7 @@ Nyisd meg a **`tartalom.js`**-t. A `PROJECTS` listában másold le a meglévő `
 
 ```js
   {
-    link: "https://github.com/FELHASZNALONEV/projekt",
+    link: "https://github.com/dorapribeli/projekt",
     tag: "Python · EEG",
     title: {
       en: "EEG signatures of meditation",
