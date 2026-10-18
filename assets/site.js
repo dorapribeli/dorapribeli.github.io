@@ -274,9 +274,34 @@
   (function loop(t){draw(t);requestAnimationFrame(loop)})(0);
 })();
 
+/* ---------- Logo mark + favicon (drawn here once for every page) ---------- */
+(function(){
+  // a phase circle: nodes partly synchronised, arrow = order parameter
+  var mark='<svg viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="lgm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22d8f0"/><stop offset="1" stop-color="#14e39a"/></linearGradient></defs>'+
+    '<circle cx="16" cy="16" r="12.5" fill="none" stroke="url(#lgm)" stroke-width="1.4"/>'+
+    '<circle cx="16" cy="16" r="8" fill="none" stroke="#3d55ff" stroke-width=".8" stroke-dasharray="1.5 2.2" opacity=".9"/>'+
+    '<line x1="16" y1="16" x2="23.4" y2="9.6" stroke="#a8ef3c" stroke-width="1.6" stroke-linecap="round"/>'+
+    '<circle cx="16" cy="16" r="1.8" fill="#a8ef3c"/>'+
+    '<circle cx="25.6" cy="8" r="2" fill="#22d8f0"/><circle cx="28.2" cy="13" r="1.7" fill="#22d8f0"/><circle cx="21" cy="4.5" r="1.7" fill="#14e39a"/>'+
+    '<circle cx="5.2" cy="22.5" r="1.5" fill="#14e39a"/><circle cx="12" cy="28" r="1.4" fill="#3d55ff"/></svg>';
+  document.querySelectorAll(".logo").forEach(function(a){a.insertAdjacentHTML("afterbegin",mark)});
+  var ic=document.createElement("link");ic.rel="icon";ic.type="image/svg+xml";
+  ic.href="data:image/svg+xml,"+encodeURIComponent(mark.replace('<svg ','<svg xmlns="http://www.w3.org/2000/svg" ').replace(' aria-hidden="true"',''));
+  document.head.appendChild(ic);
+})();
+
 /* ---------- Ko-fi floating "Support me" button (every page that loads site.js) ---------- */
 (function(){
-  var s=document.createElement("script");
+  function fallback(){ // own button if the Ko-fi script is blocked or fails
+    if(document.querySelector(".kofi-fallback"))return;
+    var w=document.querySelector('[id^="kofi-widget-overlay"]');
+    if(w&&w.offsetParent!==null&&w.getBoundingClientRect().width>0)return;
+    var a=document.createElement("a");a.className="kofi-fallback";a.href="https://ko-fi.com/dorapribeli";a.target="_blank";a.rel="noopener";
+    a.innerHTML='☕ <span lang="en">Support me</span><span lang="hu">Támogass</span>';
+    document.body.appendChild(a);
+  }
+  setTimeout(fallback,4000);
+  var s=document.createElement("script");s.onerror=fallback;
   s.src="https://storage.ko-fi.com/cdn/scripts/overlay-widget.js";
   s.onload=function(){
     if(!window.kofiWidgetOverlay)return;
