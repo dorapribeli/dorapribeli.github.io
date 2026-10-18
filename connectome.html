@@ -405,7 +405,7 @@ canvas.addEventListener('pointerup',()=>drag=null);canvas.addEventListener('poin
 canvas.addEventListener('wheel',e=>{e.preventDefault();zoom=Math.max(0.6,Math.min(1.7,zoom*(1+e.deltaY*0.001)))},{passive:false});
 function resize(){const w=innerWidth,h=innerHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();
   D=Math.min(devicePixelRatio,2);fit(spark);circs.forEach(o=>fit(o.c));
-  ptMats.forEach(m=>m.uniforms.pr.value=renderer.getPixelRatio()*(w<700?0.8:1))}
+  ptMats.forEach(m=>m.uniforms.pr.value=renderer.getPixelRatio()*(EMBED?1.7:w<700?0.8:1))}
 addEventListener('resize',resize);resize();
 
 /* ---- fő ciklus ---- */
@@ -424,7 +424,7 @@ function frame(now){
     const tx=portrait?0:off,ty=portrait?-off:0;b.x+=(tx-b.x)*ease;b.y+=(ty-b.y)*ease;
     b.g.position.set(b.x,b.y,0);b.g.rotation.set(rotX,rotY,0);
   });
-  const camZ=EMBED?6.4:(view===2?(portrait?15:12.5):(innerWidth<700?9.7:7.2))*zoom;
+  const camZ=EMBED?4.9:(view===2?(portrait?15:12.5):(innerWidth<700?9.7:7.2))*zoom;
   camera.position.z+=(camZ-camera.position.z)*ease;
   idle+=rdt;if(EMBED)rotY+=rdt*0.22;else if(!reduce&&!drag&&idle>1.5)rotY+=rdt*0.12;
   const op=[orderParam(TH[0]),orderParam(TH[1])],st=[stats('a'),stats('b')];
