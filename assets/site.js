@@ -48,7 +48,8 @@
       var body=card;
       if(p.featured){
         var th=document.createElement("div");th.className="thumb";
-        if(p.image){th.innerHTML='<img alt="" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0">';th.firstChild.src=p.image}
+        if(p.embed){var fr=document.createElement("iframe");fr.src=p.embed;fr.loading="lazy";fr.tabIndex=-1;fr.setAttribute("aria-hidden","true");fr.title="";th.appendChild(fr)}
+        else if(p.image){th.innerHTML='<img alt="" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0">';th.firstChild.src=p.image}
         else th.innerHTML='<canvas class="osc-thumb" aria-hidden="true"></canvas>';
         card.appendChild(th);body=document.createElement("div");body.className="body";card.appendChild(body);
       }else if(p.image){

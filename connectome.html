@@ -88,6 +88,8 @@ kbd{font-family:var(--f-mono);font-size:10px;color:var(--mute);margin-left:4px}
   .ctrl,.btns{display:none}
 }
 .back{display:inline-block;margin-bottom:10px;font:500 13px var(--f-ui);color:var(--mute);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:5px 12px;background:var(--panel)}
+.embed .hud,.embed .splitlab,.embed .toast{display:none!important}
+.embed #gl{pointer-events:none;cursor:default}
 .back:hover{color:var(--ink);border-color:rgba(124,200,255,.5)}
 </style>
 <canvas id="gl" aria-label="Forgatható 3D agymodell Kuramoto-oszcillátorokkal"></canvas>
@@ -227,6 +229,9 @@ function orderParam(th){let c=0,s=0;for(let i=0;i<th.length;i++){c+=Math.cos(th[
 /* ---------------------------- alkalmazás ---------------------------- */
 (function(){
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+// ?embed: csak a forgó 3D agy, vezérlők nélkül (a főoldali projektkártya ezt ágyazza be)
+const EMBED=/[?&]embed\b/.test(location.search);
+if(EMBED)document.documentElement.classList.add('embed');
 // 50%-nyi véletlen keresztkötést előre legenerálunk; a „Plusz élek” csúszka ennek egy
 // elejét kapcsolja be (0–50%), így a hálózat folyamatosan átalakítható.
 const net=buildNetwork({N:180,k:8,p:0.05,extraFrac:0.5,seed:7});
@@ -247,7 +252,7 @@ setExtra(extraPct);
 
 const h0=location.hash;
 let view=h0==='#pszichedelikus'?1:h0==='#egymasmellett'?2:0;   // 0 éber, 1 pszichedelikus, 2 egymás mellett
-let K=2,speed=reduce?0.3:0.8,paused=false,simT=0,acc=0,sampleAcc=0;
+let K=2,speed=reduce&&!EMBED?0.3:0.8,paused=false,simT=0,acc=0,sampleAcc=0;
 const TRANS=6, hist=[];   // {t,a,b}
 
 /* ---- three.js ---- */
@@ -419,9 +424,9 @@ function frame(now){
     const tx=portrait?0:off,ty=portrait?-off:0;b.x+=(tx-b.x)*ease;b.y+=(ty-b.y)*ease;
     b.g.position.set(b.x,b.y,0);b.g.rotation.set(rotX,rotY,0);
   });
-  const camZ=(view===2?(portrait?15:12.5):(innerWidth<700?9.7:7.2))*zoom;
+  const camZ=EMBED?6.4:(view===2?(portrait?15:12.5):(innerWidth<700?9.7:7.2))*zoom;
   camera.position.z+=(camZ-camera.position.z)*ease;
-  idle+=rdt;if(!reduce&&!drag&&idle>1.5)rotY+=rdt*0.12;
+  idle+=rdt;if(EMBED)rotY+=rdt*0.22;else if(!reduce&&!drag&&idle>1.5)rotY+=rdt*0.12;
   const op=[orderParam(TH[0]),orderParam(TH[1])],st=[stats('a'),stats('b')];
   brains.forEach((b,s)=>b.update(TH[s],op[s][0]));
   renderer.render(scene,camera);

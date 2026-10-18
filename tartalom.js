@@ -19,6 +19,7 @@
    linkText  – (nem kötelező) a link szövege
    image     – (nem kötelező) kép a kártyára, pl. "kepek/projekt2.jpg" (a kepek mappába tedd)
    featured  – (nem kötelező) true = nagy, kiemelt kártya
+   embed     – (nem kötelező, csak kiemelt kártyánál) egy élő oldal beágyazva képként, pl. "connectome.html?embed"
 */
 var PROJECTS = [
 
@@ -26,6 +27,7 @@ var PROJECTS = [
     link: "connectome.html",
     tag: "Interactive · 3D · Kuramoto",
     featured: true,
+    embed: "connectome.html?embed",
     title: {
       en: "Phase waves in the waking and psychedelic brain",
       hu: "Fázishullámok az éber és a pszichedelikus agyban"
