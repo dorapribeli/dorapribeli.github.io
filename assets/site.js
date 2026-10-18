@@ -284,27 +284,21 @@
   document.head.appendChild(ic);
 })();
 
-/* ---------- Ko-fi floating "Support me" button (every page that loads site.js) ---------- */
+/* ---------- Floating "Support me" button (right side) with the Ko-fi donation panel ---------- */
 (function(){
-  function fallback(){ // own button if the Ko-fi script is blocked or fails
-    if(document.querySelector(".kofi-fallback"))return;
-    var w=document.querySelector('[id^="kofi-widget-overlay"]');
-    if(w&&w.offsetParent!==null&&w.getBoundingClientRect().width>0)return;
-    var a=document.createElement("a");a.className="kofi-fallback";a.href="https://ko-fi.com/dorapribeli";a.target="_blank";a.rel="noopener";
-    a.innerHTML='☕ <span lang="en">Support me</span><span lang="hu">Támogass</span>';
-    document.body.appendChild(a);
+  var KOFI="https://ko-fi.com/dorapribeli";
+  var btn=document.createElement("button");btn.type="button";btn.className="kofi-btn";btn.setAttribute("aria-expanded","false");
+  btn.innerHTML='<span aria-hidden="true">☕</span> <span lang="en">Support me</span><span lang="hu">Támogass</span>';
+  var panel=document.createElement("div");panel.className="kofi-panel";panel.hidden=true;
+  panel.innerHTML='<div class="kofi-head"><a href="'+KOFI+'" target="_blank" rel="noopener"><span lang="en">Open on Ko-fi ↗</span><span lang="hu">Megnyitás a Ko-fin ↗</span></a>'+
+    '<button type="button" class="kofi-close" aria-label="Close">×</button></div>';
+  var frame=null;
+  function open(v){
+    if(v&&!frame){frame=document.createElement("iframe");frame.src=KOFI+"/?hidefeed=true&widget=true&embed=true";frame.title="Ko-fi";panel.appendChild(frame)}
+    panel.hidden=!v;btn.setAttribute("aria-expanded",String(v));
   }
-  setTimeout(fallback,4000);
-  var s=document.createElement("script");s.onerror=fallback;
-  s.src="https://storage.ko-fi.com/cdn/scripts/overlay-widget.js";
-  s.onload=function(){
-    if(!window.kofiWidgetOverlay)return;
-    kofiWidgetOverlay.draw("dorapribeli",{
-      "type":"floating-chat",
-      "floating-chat.donateButton.text":"Support me",
-      "floating-chat.donateButton.background-color":"#ffffff",
-      "floating-chat.donateButton.text-color":"#323842"
-    });
-  };
-  document.body.appendChild(s);
+  btn.addEventListener("click",function(){open(panel.hidden)});
+  panel.querySelector(".kofi-close").addEventListener("click",function(){open(false)});
+  document.addEventListener("keydown",function(e){if(e.key==="Escape")open(false)});
+  document.body.appendChild(panel);document.body.appendChild(btn);
 })();
