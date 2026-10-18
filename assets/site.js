@@ -134,7 +134,7 @@
 
 /* ---------- Night jungle: fractal ferns, dendrite trees, crystals, floating geometry, fireflies ---------- */
 (function(){
-  var NS="http://www.w3.org/2000/svg",still=matchMedia("(prefers-reduced-motion:reduce)").matches;
+  var NS="http://www.w3.org/2000/svg",still=false; // always animate (owner's choice), even with reduced motion
   var C=["#22d8f0","#14e39a","#a8ef3c","#3d55ff"];
   var seed=11;function rnd(){seed=(seed*16807)%2147483647;return(seed-1)/2147483646}
   function pick(){return C[Math.floor(rnd()*C.length)]}

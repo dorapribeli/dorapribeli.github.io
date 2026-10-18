@@ -187,13 +187,11 @@ section::before{content:"";position:absolute;top:0;left:8%;right:8%;height:1px;b
 .posts li{border-bottom-color:rgba(150,175,255,.16);transition:color .2s}
 .posts li:hover{color:var(--wake);text-shadow:0 0 16px rgba(34,216,240,.5)}
 
-@media (prefers-reduced-motion:reduce){.sway,.blob,em.grad{animation:none!important}}
 .spin{transform-box:fill-box;transform-origin:center;animation:spin var(--d,60s) linear infinite}
 .geo{position:absolute;opacity:.24;animation:spin 140s linear infinite}
 .g2{width:200px;top:52%;left:3%;animation-direction:reverse;animation-duration:110s;opacity:.2}
 .g3{width:300px;top:36%;left:44%;opacity:.1;animation-duration:200s}
 @media (max-width:760px){.g2{width:130px;left:-30px}.g3{display:none}}
-@media (prefers-reduced-motion:reduce){.spin,.geo{animation:none!important}}
 
 /* ---------- Project cards rendered from tartalom.js ---------- */
 .card .cover{margin:-26px -26px 18px;border-radius:20px 20px 0 0;overflow:hidden;aspect-ratio:16/9;background:#02060f}

@@ -228,7 +228,6 @@ function orderParam(th){let c=0,s=0;for(let i=0;i<th.length;i++){c+=Math.cos(th[
 
 /* ---------------------------- alkalmazás ---------------------------- */
 (function(){
-const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 // ?embed: csak a forgó 3D agy, vezérlők nélkül (a főoldali projektkártya ezt ágyazza be)
 const EMBED=/[?&]embed\b/.test(location.search);
 if(EMBED)document.documentElement.classList.add('embed');
@@ -252,7 +251,7 @@ setExtra(extraPct);
 
 const h0=location.hash;
 let view=h0==='#pszichedelikus'?1:h0==='#egymasmellett'?2:0;   // 0 éber, 1 pszichedelikus, 2 egymás mellett
-let K=2,speed=reduce&&!EMBED?0.3:0.8,paused=false,simT=0,acc=0,sampleAcc=0;
+let K=2,speed=0.8,paused=false,simT=0,acc=0,sampleAcc=0;
 const TRANS=6, hist=[];   // {t,a,b}
 
 /* ---- three.js ---- */
@@ -426,7 +425,7 @@ function frame(now){
   });
   const camZ=EMBED?4.9:(view===2?(portrait?15:12.5):(innerWidth<700?9.7:7.2))*zoom;
   camera.position.z+=(camZ-camera.position.z)*ease;
-  idle+=rdt;if(EMBED)rotY+=rdt*0.22;else if(!reduce&&!drag&&idle>1.5)rotY+=rdt*0.12;
+  idle+=rdt;if(EMBED)rotY+=rdt*0.22;else if(!drag&&idle>1.5)rotY+=rdt*0.12;
   const op=[orderParam(TH[0]),orderParam(TH[1])],st=[stats('a'),stats('b')];
   brains.forEach((b,s)=>b.update(TH[s],op[s][0]));
   renderer.render(scene,camera);
