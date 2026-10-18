@@ -75,7 +75,6 @@
 
 /* ---------- Kuramoto oscillators (hero + project thumbnail) ---------- */
 (function(){
-  var still=matchMedia("(prefers-reduced-motion:reduce)").matches;
   function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim()}
   function hex(c){c=c.replace("#","");return[parseInt(c.slice(0,2),16),parseInt(c.slice(2,4),16),parseInt(c.slice(4,6),16)]}
   function mix(a,b,t){return"rgb("+a.map(function(x,i){return Math.round(x+(b[i]-x)*t)}).join(",")+")"}
@@ -85,7 +84,8 @@
     var ctx=canvas.getContext("2d"),N=opts.n,th=[],w=[],t=0,W,H,dpr;
     for(var i=0;i<N;i++){th.push(Math.random()*6.283);w.push(1+1.0*(Math.random()*2-1))}
     function size(){dpr=Math.min(devicePixelRatio||1,2);W=canvas.clientWidth;H=canvas.clientHeight;canvas.width=W*dpr;canvas.height=H*dpr}
-    size(); addEventListener("resize",size);
+    var lastS=null;
+    size(); addEventListener("resize",function(){size();if(lastS&&!running)draw(lastS)});
     function step(dt){
       // coupling slowly swings between incoherent and synchronised
       var K=1.3+1.6*Math.sin(t*0.2),sx=0,sy=0;
@@ -95,6 +95,7 @@
       t+=dt;return{R:R,psi:psi};
     }
     function draw(s){
+      lastS=s;
       var wake=hex(opts.dark?"#5cc8ff":css("--wake")),psy=hex(opts.dark?"#ff5fb2":css("--psy"));
       var line=opts.dark?"rgba(160,175,215,.18)":css("--line");
       ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,H);
@@ -115,13 +116,16 @@
         ctx.fillText("R = "+s.R.toFixed(2),cx,cy+r+28);
       }
     }
-    if(still){for(var k=0;k<600;k++)step(0.02);draw(step(0));return}
-    var last=performance.now();
-    (function loop(now){
+    var running=false,last=0;
+    function loop(now){
+      if(!running)return;
       var dt=Math.min((now-last)/1000,0.05);last=now;
       var s;for(var k=0;k<2;k++)s=step(dt/2);
       draw(s);requestAnimationFrame(loop);
-    })(last);
+    }
+    function start(){running=true;last=performance.now();requestAnimationFrame(loop)}
+    // Always animate, even when the visitor's system asks for reduced motion (owner's choice)
+    start();
   }
   sim(document.getElementById("osc"),{n:64,dot:4.5,label:true});
   document.querySelectorAll(".osc-thumb").forEach(function(c){sim(c,{n:48,dot:3.5})});

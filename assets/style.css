@@ -187,7 +187,7 @@ section::before{content:"";position:absolute;top:0;left:8%;right:8%;height:1px;b
 .posts li{border-bottom-color:rgba(150,175,255,.16);transition:color .2s}
 .posts li:hover{color:var(--wake);text-shadow:0 0 16px rgba(34,216,240,.5)}
 
-@media (prefers-reduced-motion:reduce){.sway,.blob,.ring,em.grad{animation:none!important}}
+@media (prefers-reduced-motion:reduce){.sway,.blob,em.grad{animation:none!important}}
 .spin{transform-box:fill-box;transform-origin:center;animation:spin var(--d,60s) linear infinite}
 .geo{position:absolute;opacity:.24;animation:spin 140s linear infinite}
 .g2{width:200px;top:52%;left:3%;animation-direction:reverse;animation-duration:110s;opacity:.2}
@@ -217,3 +217,4 @@ a.card{text-decoration:none;color:inherit}
 .article figure img{border-radius:16px;border:1px solid var(--line)}
 .article figcaption{font-size:13px;color:var(--mute);margin-top:8px}
 .article .panel{background:rgba(2,6,14,.6);border:1px solid var(--line);border-radius:16px;padding:20px 24px;margin:28px 0}
+
