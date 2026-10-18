@@ -197,7 +197,7 @@ A háttérben lévő páfrányok színei az `assets/site.js`-ben vannak (keresd:
 
 ## 8. Ha valami elromlik
 
-- **Feltöltés után másnál még a régi kinézet látszik?** A böngészők 10 percig a régi `style.css` és `site.js` fájlt használhatják. Ha ezeket vagy a `tartalom.js`-t módosítod, a HTML-fájlokban (`index.html`, `cikk-*.html`) írd át a `?v=2` számot eggyel nagyobbra (pl. `?v=3`). Így mindenki azonnal az újat kapja.
+- **Feltöltés után másnál még a régi kinézet látszik?** A böngészők 10 percig a régi `style.css` és `site.js` fájlt használhatják. Ha ezeket vagy a `tartalom.js`-t módosítod, a HTML-fájlokban (`index.html`, `cikk-*.html`) írd át a `?v=…` számot eggyel nagyobbra (pl. `?v=3` → `?v=4`). Így mindenki azonnal az újat kapja.
 
 - **Eltűntek a kártyák?** Valószínűleg hiányzik egy **vessző** a `}` után, vagy egy **idézőjel** a `tartalom.js`-ben.
   A hiba helyét így találod meg: a böngészőben **jobb klikk → Vizsgálat (Inspect) → Console**. A piros sor megmutatja a hibás sort.

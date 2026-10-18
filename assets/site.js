@@ -273,3 +273,19 @@
   if(still){draw(0);return}
   (function loop(t){draw(t);requestAnimationFrame(loop)})(0);
 })();
+
+/* ---------- Ko-fi floating "Support me" button (every page that loads site.js) ---------- */
+(function(){
+  var s=document.createElement("script");
+  s.src="https://storage.ko-fi.com/cdn/scripts/overlay-widget.js";
+  s.onload=function(){
+    if(!window.kofiWidgetOverlay)return;
+    kofiWidgetOverlay.draw("dorapribeli",{
+      "type":"floating-chat",
+      "floating-chat.donateButton.text":"Support me",
+      "floating-chat.donateButton.background-color":"#ffffff",
+      "floating-chat.donateButton.text-color":"#323842"
+    });
+  };
+  document.body.appendChild(s);
+})();
