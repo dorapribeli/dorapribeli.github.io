@@ -276,7 +276,7 @@
 
 /* ---------- Logo (still image of the 3D brain from the project) + favicon ---------- */
 (function(){
-  document.querySelectorAll(".logo").forEach(function(a){a.insertAdjacentHTML("afterbegin",'<img src="assets/logo.png" alt="" width="50" height="32">')});
+  document.querySelectorAll(".logo").forEach(function(a){a.insertAdjacentHTML("afterbegin",'<img src="assets/logo.png" alt="" width="60" height="38">')});
   var ic=document.createElement("link");ic.rel="icon";ic.type="image/png";ic.href="assets/favicon.png";document.head.appendChild(ic);
 })();
 
