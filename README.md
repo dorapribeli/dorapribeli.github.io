@@ -3,6 +3,14 @@
 Kétnyelvű (EN/HU) oldal: bemutatkozás, kutatás, projektek, mozgásórák, írások és elérhetőség.
 Egyszerű HTML/CSS/JavaScript, nem kell hozzá telepíteni semmit.
 
+| | |
+|---|---|
+| **Élő oldal** | https://dorapr.github.io |
+| **GitHub-repó** | https://github.com/dorapr/dorapr.github.io |
+| **Mappa a gépeden** | `Documents/weboldal` |
+
+A `Documents/weboldal` mappa össze van kötve a GitHub-repóval: amit itt módosítasz, azt egy feltöltéssel (lásd 3. pont) élesíted.
+
 ---
 
 ## 1. A mappa felépítése
@@ -36,44 +44,45 @@ Ha módosítasz egy fájlt, mentsd el, és a böngészőben nyomj **Cmd + R**-t 
 ### Szerkesztéshez ajánlott: Visual Studio Code
 
 1. Töltsd le: https://code.visualstudio.com (ingyenes).
-2. **File → Open Folder…**, és válaszd ki a `weboldal` mappát.
+2. **File → Open Folder…**, és válaszd ki a `Documents/weboldal` mappát.
 3. Bal oldalt kattints arra a fájlra, amit szerkeszteni szeretnél. Mentés: **Cmd + S**.
 4. *(Nem kötelező)* Telepítsd a **Live Server** bővítményt: bal oldalt a négy kocka ikon, majd keresés: „Live Server”. Utána jobb klikk az `index.html`-en → **Open with Live Server**. Így a böngésző minden mentéskor magától frissül.
 
 ---
 
-## 3. Feltöltés a GitHub Pagesre
+## 3. Változtatások feltöltése a GitHub Pagesre
 
-### A) Első alkalommal, a böngészőből (nem kell hozzá semmit telepíteni)
+Az oldal már fent van a **https://dorapr.github.io** címen, a GitHub Pages be van kapcsolva (`main` branch, `/ (root)`).
+Ha módosítasz valamit, azt az alábbi módok egyikével töltöd fel. **1–2 perc múlva** frissül az élő oldal. Ha nem látod a változást, nyomj **Cmd + Shift + R**-t a böngészőben.
 
-1. Lépj be a https://github.com oldalra.
-2. Jobb fent: **+ → New repository**.
-   - **Repository name:** pontosan `FELHASZNALONEV.github.io` (a saját GitHub-felhasználóneveddel)
-   - **Public**
-   - Kattints a **Create repository** gombra.
-3. Az üres repó oldalán kattints az **uploading an existing file** linkre (vagy: **Add file → Upload files**).
-4. Nyisd meg a Finderben a `weboldal` mappát, jelöld ki **a teljes tartalmát** (Cmd + A), és húzd be a böngészőablakba.
-   - Fontos, hogy a mappa **tartalmát** húzd be, ne magát a `weboldal` mappát. Az `index.html`-nek a repó legfelső szintjén kell lennie.
-   - Az `assets` és a `_sablon` mappa is menjen fel; a GitHub megtartja a mappaszerkezetet.
-5. Lent kattints a **Commit changes** gombra.
-6. Menj a **Settings → Pages** menübe, és ellenőrizd:
-   - **Source:** Deploy from a branch
-   - **Branch:** `main`, mappa: `/ (root)` → **Save**
-7. 1–2 perc múlva kész. Az **Actions** fülön zöld pipa jelzi. Az oldalad címe:
+### A) Terminálból (3 parancs)
 
-   **`https://FELHASZNALONEV.github.io`**
+Nyisd meg a **Terminal** alkalmazást, és írd be:
 
-### B) Frissítés később
+```bash
+cd ~/Documents/weboldal
+git add -A
+git commit -m "Új projekt: EEG"
+git push
+```
 
-- **Böngészőből:** **Add file → Upload files**, húzd be a módosított fájl(oka)t, majd **Commit changes**. Az azonos nevű fájlt a GitHub felülírja.
-  Ha egy almappában lévő fájlt módosítottál (pl. `assets/style.css`), előbb kattints be a repóban az `assets` mappába, és ott töltsd fel.
-- **Kényelmesebben, GitHub Desktoppal** (ajánlott, ha sokat frissítesz):
-  1. Töltsd le: https://desktop.github.com, és jelentkezz be.
-  2. **File → Clone repository**, és válaszd a `FELHASZNALONEV.github.io` repót. Ez létrehoz a gépeden egy mappát.
-  3. Ettől kezdve **ebben a mappában** szerkeszd az oldalt (másold bele egyszer a `weboldal` tartalmát).
-  4. Szerkesztés után a GitHub Desktopban írj egy rövid üzenetet (pl. „új projekt”), majd kattints a **Commit to main**, végül a **Push origin** gombra.
+Az idézőjelek közé egy rövid leírást írj arról, mit változtattál. A fiókod már be van jelentkezve ezen a gépen, így jelszót nem kér.
 
-### C) Saját domain (később)
+Ha előtte meg akarod nézni, mit változtattál: `git status` (melyik fájlok) vagy `git diff` (pontosan mi; kilépés: `q`).
+
+### B) GitHub Desktoppal (gombokkal)
+
+1. Töltsd le: https://desktop.github.com, és jelentkezz be a `dorapr` fiókkal.
+2. **File → Add local repository…**, és válaszd ki a `Documents/weboldal` mappát.
+3. Ettől kezdve a változtatásaid bal oldalt megjelennek. Írj lent egy rövid üzenetet, majd kattints a **Commit to main**, végül a **Push origin** gombra.
+
+### C) Böngészőből
+
+A https://github.com/dorapr/dorapr.github.io oldalon: **Add file → Upload files**, húzd be a módosított fájlt, majd **Commit changes**. Almappában lévő fájlnál (pl. `assets/style.css`) előbb lépj be a repóban abba a mappába.
+
+> Ha a böngészőből töltesz fel, a gépeden lévő mappa nem tud róla. A következő terminálos feltöltés előtt ezért futtasd: `git pull`.
+
+### Saját domain (később)
 
 Ha veszel egy domaint (pl. `valami.com`):
 1. A repóban **Settings → Pages → Custom domain**: írd be a domaint, és kattints a **Save** gombra.
