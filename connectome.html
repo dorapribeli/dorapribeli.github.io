@@ -91,67 +91,118 @@ kbd{font-family:var(--f-mono);font-size:10px;color:var(--mute);margin-left:4px}
 .embed .hud,.embed .splitlab,.embed .toast{display:none!important}
 .embed #gl{pointer-events:none;cursor:default}
 .back:hover{color:var(--ink);border-color:rgba(124,200,255,.5)}
+.toprow{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.toprow .back{margin-bottom:0}
+.lang{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:2px;background:var(--panel)}
+.lang button{all:unset;cursor:pointer;font:500 11px var(--f-mono);letter-spacing:.06em;padding:4px 9px;border-radius:999px;color:var(--mute)}
+.lang button[aria-pressed="true"]{background:var(--ink);color:var(--void)}
+.lang button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+/* side-by-side view: hide the intro paragraph so the state labels don't run into it */
+.lede{transition:opacity .4s}
+.split .lede{opacity:0;pointer-events:none}
 </style>
-<canvas id="gl" aria-label="Forgatható 3D agymodell Kuramoto-oszcillátorokkal"></canvas>
+<canvas id="gl" data-i18n-aria="aGl" aria-label="Forgatható 3D agymodell Kuramoto-oszcillátorokkal"></canvas>
 
 <div class="hud tl">
-  <a class="back" href="index.html">← Dóra Pribeli</a>
+  <div class="toprow">
+    <a class="back" href="index.html">← Dora Pribeli</a>
+    <div class="lang" role="group" aria-label="Language / Nyelv"><button type="button" data-set="en" aria-pressed="false">EN</button><button type="button" data-set="hu" aria-pressed="true">HU</button></div>
+  </div>
   <div class="eyebrow">Kuramoto · Watts–Strogatz · N = 180</div>
-  <h1>Fázishullámok <span id="art">az</span> <em id="stateWord">éber</em> agyban</h1>
-  <p class="lede">Minden pont egy agyterület, amely saját ritmusában oszcillál. A kapcsolatok összehúzzák a fázisokat; a szinkron koalíciók folyamatosan születnek és szétesnek.</p>
+  <h1 id="title">Fázishullámok az <em>éber</em> agyban</h1>
+  <p class="lede" data-i18n="lede">Minden pont egy agyterület, amely saját ritmusában oszcillál. A kapcsolatok összehúzzák a fázisokat; a szinkron koalíciók folyamatosan születnek és szétesnek.</p>
 </div>
 
 <div class="hud tr">
-  <div class="panel seg" role="group" aria-label="Nézet">
-    <button data-s="0" aria-pressed="true">Éber <kbd>1</kbd></button>
-    <button data-s="1" aria-pressed="false">Pszichedelikus <kbd>2</kbd></button>
-    <button data-s="2" aria-pressed="false">Egymás mellett <kbd>S</kbd></button>
+  <div class="panel seg" role="group" data-i18n-aria="aView" aria-label="Nézet">
+    <button data-s="0" aria-pressed="true"><span data-i18n="b0">Éber</span> <kbd>1</kbd></button>
+    <button data-s="1" aria-pressed="false"><span data-i18n="b1">Pszichedelikus</span> <kbd>2</kbd></button>
+    <button data-s="2" aria-pressed="false"><span data-i18n="b2">Egymás mellett</span> <kbd>S</kbd></button>
   </div>
   <div class="panel ctrl">
-    <label for="kIn">Csatolás K</label><input id="kIn" type="range" min="0" max="5" step="0.1" value="2"><output id="kOut">2.0</output>
-    <label for="exIn">Plusz élek</label><input id="exIn" type="range" min="0" max="50" step="5" value="20" aria-describedby="exOut"><output id="exOut">20%</output>
-    <label for="spIn">Sebesség</label><input id="spIn" type="range" min="0.1" max="2" step="0.05" value="0.8"><output id="spOut">0.80</output>
+    <label for="kIn" data-i18n="kL">Csatolás K</label><input id="kIn" type="range" min="0" max="5" step="0.1" value="2"><output id="kOut">2.0</output>
+    <label for="exIn" data-i18n="exL">Plusz élek</label><input id="exIn" type="range" min="0" max="50" step="5" value="20" aria-describedby="exOut"><output id="exOut">20%</output>
+    <label for="spIn" data-i18n="spL">Sebesség</label><input id="spIn" type="range" min="0.1" max="2" step="0.05" value="0.8"><output id="spOut">0.80</output>
   </div>
   <div class="btns">
-    <button class="btn" id="bPause">Szünet<kbd>Space</kbd></button>
-    <button class="btn" id="bReset">Újraindítás<kbd>R</kbd></button>
-    <button class="btn" id="bFull">Teljes képernyő<kbd>F</kbd></button>
+    <button class="btn" id="bPause"><span id="pauseTxt" data-i18n="pause">Szünet</span><kbd>Space</kbd></button>
+    <button class="btn" id="bReset"><span data-i18n="reset">Újraindítás</span><kbd>R</kbd></button>
+    <button class="btn" id="bFull"><span data-i18n="full">Teljes képernyő</span><kbd>F</kbd></button>
   </div>
 </div>
 
 <div class="hud bl panel">
-  <div class="tline"><span>idő&nbsp; <b>t = <span id="tVal">0.0</span></b></span><span id="tPhase">beállás…</span></div>
+  <div class="tline"><span><span data-i18n="time">idő</span>&nbsp; <b>t = <span id="tVal">0.0</span></b></span><span id="tPhase">beállás…</span></div>
   <div class="cmp">
     <div class="st" data-s="0">
-      <span class="lab">Éber</span>
+      <span class="lab" data-i18n="labW">Éber</span>
       <span class="big"><small>R</small><span id="r0">0.00</span></span>
       <dl class="stats"><dt>⟨R⟩</dt><dd id="m0">…</dd><dt>σ<sub>R</sub></dt><dd id="s0">…</dd></dl>
     </div>
     <div class="st" data-s="1">
-      <span class="lab">Pszichedelikus</span>
+      <span class="lab" data-i18n="labP">Pszichedelikus</span>
       <span class="big"><small>R</small><span id="r1">0.00</span></span>
       <dl class="stats"><dt>⟨R⟩</dt><dd id="m1">…</dd><dt>σ<sub>R</sub></dt><dd id="s1">…</dd></dl>
     </div>
   </div>
-  <canvas id="spark" aria-label="A két állapot R(t) idősora egymásra rajzolva, az utolsó 40 időegység"></canvas>
+  <canvas id="spark" data-i18n-aria="aSpark" aria-label="A két állapot R(t) idősora egymásra rajzolva, az utolsó 40 időegység"></canvas>
 </div>
 
 <div class="hud br panel">
   <div class="circles">
-    <figure data-s="0"><canvas id="c0" aria-label="Az éber állapot fázisai az egységkörön"></canvas><figcaption style="color:var(--wake)">éber</figcaption></figure>
-    <figure data-s="1"><canvas id="c1" aria-label="A pszichedelikus állapot fázisai az egységkörön"></canvas><figcaption style="color:var(--psy)">pszich.</figcaption></figure>
+    <figure data-s="0"><canvas id="c0" data-i18n-aria="aC0" aria-label="Az éber állapot fázisai az egységkörön"></canvas><figcaption style="color:var(--wake)" data-i18n="capW">éber</figcaption></figure>
+    <figure data-s="1"><canvas id="c1" data-i18n-aria="aC1" aria-label="A pszichedelikus állapot fázisai az egységkörön"></canvas><figcaption style="color:var(--psy)" data-i18n="capP">pszich.</figcaption></figure>
   </div>
-  <div class="cap">fázisok az egységkörön · nyíl = R</div>
+  <div class="cap" data-i18n="cap">fázisok az egységkörön · nyíl = R</div>
 </div>
 
-<div class="splitlab" style="left:27%;color:var(--wake)">Éber</div>
-<div class="splitlab" style="left:73%;color:var(--psy)">Pszichedelikus</div>
+<div class="splitlab" style="left:27%;color:var(--wake)" data-i18n="labW">Éber</div>
+<div class="splitlab" style="left:73%;color:var(--psy)" data-i18n="labP">Pszichedelikus</div>
 
 <div class="hud bc legend" aria-hidden="true">
-  <span><b>pont</b> = agyterület</span><span><b>szín</b> = fázis θ</span><span><b>felvillanás</b> = θ ≈ 0</span><span><b>világító él</b> = két vége fázisban</span>
+  <span><b data-i18n="lg1">pont</b> <span data-i18n="lg1b">= agyterület</span></span><span><b data-i18n="lg2">szín</b> = <span data-i18n="lg2b">fázis</span> θ</span><span><b data-i18n="lg3">felvillanás</b> = θ ≈ 0</span><span><b data-i18n="lg4">világító él</b> <span data-i18n="lg4b">= két vége fázisban</span></span>
 </div>
 <div class="toast" id="toast"></div>
 
+<script>
+/* ---------- Nyelv (EN/HU) – ugyanazt a beállítást használja, mint a főoldal ---------- */
+const I18N={
+  hu:{title:'Fázishullám-konnektom',
+    heading:v=>v===2?'Fázishullámok a <em>két</em> agyban':'Fázishullámok '+(v?'a':'az')+' <em>'+(v?'pszichedelikus':'éber')+'</em> agyban',
+    lede:'Minden pont egy agyterület, amely saját ritmusában oszcillál. A kapcsolatok összehúzzák a fázisokat; a szinkron koalíciók folyamatosan születnek és szétesnek.',
+    aView:'Nézet',b0:'Éber',b1:'Pszichedelikus',b2:'Egymás mellett',kL:'Csatolás K',exL:'Plusz élek',spL:'Sebesség',
+    pause:'Szünet',resume:'Folytatás',reset:'Újraindítás',full:'Teljes képernyő',time:'idő',settling:'beállás…',paused:'szünet',
+    labW:'Éber',labP:'Pszichedelikus',capW:'éber',capP:'pszich.',cap:'fázisok az egységkörön · nyíl = R',
+    lg1:'pont',lg1b:'= agyterület',lg2:'szín',lg2b:'fázis',lg3:'felvillanás',lg4:'világító él',lg4b:'= két vége fázisban',
+    tSplit:'Ugyanazok az oszcillátorok, két hálózat',tPsy:(n,p)=>'+'+n+' véletlen keresztkötés ('+p+'%)',tWake:'Moduláris kisvilág-hálózat',
+    tExtra:(n,p)=>'Pszichedelikus hálózat: +'+n+' él ('+p+'%)',tReset:'Új, közös kezdőfázisok',
+    aGl:'Forgatható 3D agymodell Kuramoto-oszcillátorokkal',aSpark:'A két állapot R(t) idősora egymásra rajzolva, az utolsó 40 időegység',
+    aC0:'Az éber állapot fázisai az egységkörön',aC1:'A pszichedelikus állapot fázisai az egységkörön'},
+  en:{title:'Phase-wave connectome',
+    heading:v=>v===2?'Phase waves in <em>two</em> brains':'Phase waves in the <em>'+(v?'psychedelic':'waking')+'</em> brain',
+    lede:'Every dot is a brain region oscillating at its own rhythm. Connections pull the phases together; synchronised coalitions keep forming and dissolving.',
+    aView:'View',b0:'Waking',b1:'Psychedelic',b2:'Side by side',kL:'Coupling K',exL:'Extra edges',spL:'Speed',
+    pause:'Pause',resume:'Resume',reset:'Restart',full:'Fullscreen',time:'time',settling:'settling…',paused:'paused',
+    labW:'Waking',labP:'Psychedelic',capW:'waking',capP:'psych.',cap:'phases on the unit circle · arrow = R',
+    lg1:'dot',lg1b:'= brain region',lg2:'colour',lg2b:'phase',lg3:'flash',lg4:'glowing edge',lg4b:'= both ends in phase',
+    tSplit:'Same oscillators, two networks',tPsy:(n,p)=>'+'+n+' random shortcuts ('+p+'%)',tWake:'Modular small-world network',
+    tExtra:(n,p)=>'Psychedelic network: +'+n+' edges ('+p+'%)',tReset:'New shared starting phases',
+    aGl:'Rotatable 3D brain model of Kuramoto oscillators',aSpark:'R(t) of both states over the last 40 time units',
+    aC0:'Phases of the waking state on the unit circle',aC1:'Phases of the psychedelic state on the unit circle'}
+};
+let LANG=(function(){try{const s=localStorage.getItem('lang');if(s==='hu'||s==='en')return s}catch(e){}return (navigator.language||'').toLowerCase().indexOf('hu')===0?'hu':'en'})();
+function t(k,...a){const v=I18N[LANG][k];return typeof v==='function'?v(...a):v}
+function applyLang(l){
+  LANG=l;try{localStorage.setItem('lang',l)}catch(e){}
+  document.documentElement.lang=l;document.title=t('title');
+  document.querySelectorAll('[data-i18n]').forEach(e=>{e.textContent=t(e.dataset.i18n)});
+  document.querySelectorAll('[data-i18n-aria]').forEach(e=>e.setAttribute('aria-label',t(e.dataset.i18nAria)));
+  document.querySelectorAll('.lang button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.set===l)));
+  dispatchEvent(new Event('langchange'));
+}
+document.querySelectorAll('.lang button').forEach(b=>b.addEventListener('click',()=>applyLang(b.dataset.set)));
+applyLang(LANG);
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 /* ---------- Kuramoto-mag: hálózat + dinamika (tiszta függvények) ---------- */
@@ -378,24 +429,24 @@ function setView(v,announce=true){
   document.body.classList.toggle('split',v===2);
   document.querySelectorAll('.st').forEach(e=>e.classList.toggle('dim',v!==2&&+e.dataset.s!==v));
   document.querySelectorAll('.circles figure').forEach(e=>e.classList.toggle('dim',v!==2&&+e.dataset.s!==v));
-  if(v===2){$('art').textContent='a';$('stateWord').textContent='két';}
-  else{$('art').textContent=v?'a':'az';$('stateWord').textContent=v?'pszichedelikus':'éber'}
-  if(announce)toast(v===2?'Ugyanazok az oszcillátorok, két hálózat':v?`+${nExtraOn} véletlen keresztkötés (${extraPct}%)`:'Moduláris kisvilág-hálózat');
+  $('title').innerHTML=t('heading',v);
+  if(announce)toast(v===2?t('tSplit'):v?t('tPsy',nExtraOn,extraPct):t('tWake'));
 }
 segBtns.forEach(b=>b.addEventListener('click',()=>setView(+b.dataset.s)));
 $('kIn').addEventListener('input',e=>{K=+e.target.value;$('kOut').textContent=K.toFixed(1);hist.length=0;simT=0});
 $('exIn').addEventListener('input',e=>{setExtra(+e.target.value);$('exOut').textContent=extraPct+'%';hist.length=0;simT=0});
-$('exIn').addEventListener('change',()=>toast(`Pszichedelikus hálózat: +${nExtraOn} él (${extraPct}%)`));
+$('exIn').addEventListener('change',()=>toast(t('tExtra',nExtraOn,extraPct)));
 $('spIn').addEventListener('input',e=>{speed=+e.target.value;$('spOut').textContent=speed.toFixed(2)});
 $('spIn').value=speed;$('spOut').textContent=speed.toFixed(2);
-function reset(){const r=net.rnd;for(let i=0;i<N;i++){const v=r()*2*Math.PI;TH[0][i]=v;TH[1][i]=v}hist.length=0;simT=0;toast('Új, közös kezdőfázisok')}
-function togglePause(){paused=!paused;$('bPause').firstChild.textContent=paused?'Folytatás':'Szünet'}
+function reset(){const r=net.rnd;for(let i=0;i<N;i++){const v=r()*2*Math.PI;TH[0][i]=v;TH[1][i]=v}hist.length=0;simT=0;toast(t('tReset'))}
+function togglePause(){paused=!paused;const p=$('pauseTxt');p.dataset.i18n=paused?'resume':'pause';p.textContent=t(p.dataset.i18n)}
 function full(){const d=document;if(!d.fullscreenElement)d.documentElement.requestFullscreen?.().catch(()=>{});else d.exitFullscreen?.()}
 $('bPause').addEventListener('click',togglePause);$('bReset').addEventListener('click',reset);$('bFull').addEventListener('click',full);
 addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;const k=e.key.toLowerCase();
   if(k==='1')setView(0);else if(k==='2')setView(1);else if(k==='s'||k==='3')setView(2);
   else if(k===' '){e.preventDefault();togglePause()}else if(k==='r')reset();else if(k==='f')full()});
 setView(view,false);
+addEventListener('langchange',()=>{$('title').innerHTML=t('heading',view)});
 
 /* ---- forgatás / nagyítás ---- */
 let drag=null,idle=0,zoom=1;
@@ -431,7 +482,7 @@ function frame(now){
   brains.forEach((b,s)=>b.update(TH[s],op[s][0]));
   renderer.render(scene,camera);
   $('tVal').textContent=simT.toFixed(1);
-  $('tPhase').textContent=simT<TRANS?'beállás…':(paused?'szünet':'');
+  $('tPhase').textContent=simT<TRANS?t('settling'):(paused?t('paused'):'');
   for(const s of [0,1]){
     $('r'+s).textContent=op[s][0].toFixed(2);
     $('m'+s).textContent=st[s]?st[s][0].toFixed(3):'…';$('s'+s).textContent=st[s]?st[s][1].toFixed(3):'…';
