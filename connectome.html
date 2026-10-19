@@ -106,6 +106,7 @@ kbd{font-family:var(--f-mono);font-size:10px;color:var(--mute);margin-left:4px}
 <div class="hud tl">
   <div class="toprow">
     <a class="back" href="index.html">← Dora Pribeli</a>
+    <a class="back" href="projekt-konnektom.html" data-i18n="about">ℹ︎ A modellről</a>
     <div class="lang" role="group" aria-label="Language / Nyelv"><button type="button" data-set="en" aria-pressed="false">EN</button><button type="button" data-set="hu" aria-pressed="true">HU</button></div>
   </div>
   <div class="eyebrow">Kuramoto · Watts–Strogatz · N = 180</div>
@@ -170,7 +171,7 @@ const I18N={
   hu:{title:'Fázishullám-konnektom',
     heading:v=>v===2?'Fázishullámok a <em>két</em> agyban':'Fázishullámok '+(v?'a':'az')+' <em>'+(v?'pszichedelikus':'éber')+'</em> agyban',
     lede:'Minden pont egy agyterület, amely saját ritmusában oszcillál. A kapcsolatok összehúzzák a fázisokat; a szinkron koalíciók folyamatosan születnek és szétesnek.',
-    aView:'Nézet',b0:'Éber',b1:'Pszichedelikus',b2:'Egymás mellett',kL:'Csatolás K',exL:'Plusz élek',spL:'Sebesség',
+    about:'ℹ︎ A modellről',aView:'Nézet',b0:'Éber',b1:'Pszichedelikus',b2:'Egymás mellett',kL:'Csatolás K',exL:'Plusz élek',spL:'Sebesség',
     pause:'Szünet',resume:'Folytatás',reset:'Újraindítás',full:'Teljes képernyő',time:'idő',settling:'beállás…',paused:'szünet',
     labW:'Éber',labP:'Pszichedelikus',capW:'éber',capP:'pszich.',cap:'fázisok az egységkörön · nyíl = R',
     lg1:'pont',lg1b:'= agyterület',lg2:'szín',lg2b:'fázis',lg3:'felvillanás',lg4:'világító él',lg4b:'= két vége fázisban',
@@ -181,7 +182,7 @@ const I18N={
   en:{title:'Phase-wave connectome',
     heading:v=>v===2?'Phase waves in <em>two</em> brains':'Phase waves in the <em>'+(v?'psychedelic':'waking')+'</em> brain',
     lede:'Every dot is a brain region oscillating at its own rhythm. Connections pull the phases together; synchronised coalitions keep forming and dissolving.',
-    aView:'View',b0:'Waking',b1:'Psychedelic',b2:'Side by side',kL:'Coupling K',exL:'Extra edges',spL:'Speed',
+    about:'ℹ︎ About the model',aView:'View',b0:'Waking',b1:'Psychedelic',b2:'Side by side',kL:'Coupling K',exL:'Extra edges',spL:'Speed',
     pause:'Pause',resume:'Resume',reset:'Restart',full:'Fullscreen',time:'time',settling:'settling…',paused:'paused',
     labW:'Waking',labP:'Psychedelic',capW:'waking',capP:'psych.',cap:'phases on the unit circle · arrow = R',
     lg1:'dot',lg1b:'= brain region',lg2:'colour',lg2b:'phase',lg3:'flash',lg4:'glowing edge',lg4b:'= both ends in phase',

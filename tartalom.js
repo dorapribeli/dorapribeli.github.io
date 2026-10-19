@@ -19,6 +19,9 @@
    linkText  – (nem kötelező) a link szövege
    image     – (nem kötelező) kép a kártyára, pl. "kepek/projekt2.jpg" (a kepek mappába tedd)
    featured  – (nem kötelező) true = nagy, kiemelt kártya
+   links     – (nem kötelező) több gomb a kártya alján, pl.
+               links: [ { href: "a.html", text: { en: "…", hu: "…" } }, { href: "b.html", text: {…} } ]
+               ilyenkor a „link” és a „linkText” nem kell
    embed     – (nem kötelező, csak kiemelt kártyánál) egy élő oldal beágyazva képként, pl. "connectome.html?embed"
 */
 var PROJECTS = [
@@ -36,7 +39,10 @@ var PROJECTS = [
       en: "A rotatable 3D brain network of 180 coupled oscillators. Switch between a waking and a psychedelic-like state and watch synchronised coalitions form and dissolve in real time.",
       hu: "Forgatható 3D agyhálózat 180 csatolt oszcillátorral. Válts éber és pszichedelikus-szerű állapot között, és nézd, ahogy a szinkron koalíciók valós időben születnek és szétesnek."
     },
-    linkText: { en: "Open the visualisation →", hu: "Megnyitom a vizualizációt →" }
+    links: [
+      { href: "connectome.html",         text: { en: "Open the visualisation →", hu: "Megnyitom a vizualizációt →" } },
+      { href: "projekt-konnektom.html",  text: { en: "Read the write-up →",      hu: "A projekt leírása →" } }
+    ]
   },
 
 ];

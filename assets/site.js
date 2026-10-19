@@ -41,8 +41,9 @@
   var pl=document.getElementById("project-list");
   if(pl&&window.PROJECTS){
     PROJECTS.forEach(function(p){
-      var card=document.createElement(p.link?"a":"div");
-      if(p.link)card.href=p.link;
+      var multi=p.links&&p.links.length;           // several buttons -> the card itself is not a link
+      var card=document.createElement(p.link&&!multi?"a":"div");
+      if(p.link&&!multi)card.href=p.link;
       card.className="card"+(p.featured?" feature":"");
       if(p.featured)card.style.gridColumn="1/-1";
       var body=card;
@@ -58,7 +59,11 @@
       if(p.tag){var t=document.createElement("div");t.className="tag";t.textContent=p.tag;body.appendChild(t)}
       body.appendChild(bi("h3",p.title));
       body.appendChild(bi("p",p.text));
-      if(p.link){var m=document.createElement("span");m.className="more";m.appendChild(bi("span",p.linkText||{en:"Open →",hu:"Megnyitom →"}));body.appendChild(m)}
+      if(multi){
+        var row=document.createElement("div");row.className="card-links";
+        p.links.forEach(function(L,i){var a=document.createElement("a");a.href=L.href;a.className="btn"+(i?"":" primary");a.appendChild(bi("span",L.text));row.appendChild(a)});
+        body.appendChild(row);
+      }else if(p.link){var m=document.createElement("span");m.className="more";m.appendChild(bi("span",p.linkText||{en:"Open →",hu:"Megnyitom →"}));body.appendChild(m)}
       pl.appendChild(card);
     });
   }

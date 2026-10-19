@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Phase waves in the waking and psychedelic brain – Dora Pribeli</title>
+<meta name="description" content="A toy model of the waking and psychedelic brain: Kuramoto oscillators on a small-world network, with and without extra long-range connections.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<link rel="stylesheet" href="assets/style.css?v=10">
+<!-- Projektleírás (a feladat5 dokumentáció alapján). Szerkesztés: lásd README.md -->
+</head>
+<body data-title-en="Phase waves in the waking and psychedelic brain – Dora Pribeli" data-title-hu="Fázishullámok az éber és a pszichedelikus agyban – Pribeli Dóra">
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="index.html">Dora Pribeli</a>
+    <nav class="links" aria-label="Main">
+      <a href="index.html#about"><span lang="en">About</span><span lang="hu">Rólam</span></a>
+      <a href="index.html#research"><span lang="en">Research</span><span lang="hu">Kutatás</span></a>
+      <a href="index.html#projects"><span lang="en">Projects</span><span lang="hu">Projektek</span></a>
+      <a href="index.html#movement"><span lang="en">Movement</span><span lang="hu">Mozgás</span></a>
+      <a href="index.html#writing"><span lang="en">Writing</span><span lang="hu">Írások</span></a>
+      <a href="index.html#contact"><span lang="en">Contact</span><span lang="hu">Kapcsolat</span></a>
+    </nav>
+    <div class="lang" role="group" aria-label="Language / Nyelv">
+      <button type="button" data-set="en" aria-pressed="true">EN</button>
+      <button type="button" data-set="hu" aria-pressed="false">HU</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <article class="article">
+    <a class="back" href="index.html#projects">← <span lang="en">All projects</span><span lang="hu">Összes projekt</span></a>
+    <div class="eyebrow"><span lang="en">Project · Computational neuroscience</span><span lang="hu">Projekt · Számítógépes idegtudomány</span></div>
+
+    <!-- ===================== ANGOL VÁLTOZAT ===================== -->
+    <div lang="en">
+      <h1>Phase waves in the waking and psychedelic brain</h1>
+      <div class="meta">2026 · 7 min read · Python + JavaScript</div>
+
+      <p>Brain networks are a balancing act. They are <strong>segregated</strong> – densely connected, specialised modules – and at the same time <strong>integrated</strong>, with short paths between those modules. Networks with this combination are called <em>small-world</em> networks.</p>
+      <p>Brain-imaging studies of psychedelics such as LSD report a shift in this balance: connectivity <em>within</em> brain networks drops, while connectivity <em>between</em> them grows. In short: less segregation, more integration.</p>
+
+      <div class="panel">
+        <strong>The question.</strong> If I take a brain-like small-world network and add random long-range connections – a very simple model of the psychedelic state –
+        <ol>
+          <li>how do the graph measures change, and</li>
+          <li>how does the synchrony of oscillators running on the network change?</li>
+        </ol>
+      </div>
+
+      <h2>Try it first</h2>
+      <p>This is the live model. Each dot is a brain region; its colour shows its phase, and edges light up when both ends are in phase.</p>
+    </div>
+
+    <!-- ===================== MAGYAR VÁLTOZAT ===================== -->
+    <div lang="hu">
+      <h1>Fázishullámok az éber és a pszichedelikus agyban</h1>
+      <div class="meta">2026 · 7 perc olvasás · Python + JavaScript</div>
+
+      <p>Az agyi hálózatok egyensúlyozó művészek. Egyszerre <strong>szegregáltak</strong> – sűrűn kapcsolt, specializált modulokból állnak –, és <strong>integráltak</strong>, rövid utakkal a modulok között. Az ilyen hálózatokat <em>kisvilág</em> (small-world) hálózatnak nevezzük.</p>
+      <p>Pszichedelikumok (pl. LSD) hatása alatt végzett agyi képalkotó vizsgálatok szerint ez az egyensúly eltolódik: a hálózatokon <em>belüli</em> kapcsolatok gyengülnek, a hálózatok <em>közötti</em> kapcsolatok erősödnek. Röviden: kevesebb szegregáció, több integráció.</p>
+
+      <div class="panel">
+        <strong>A kérdés.</strong> Ha egy agyszerű kisvilág-hálózathoz véletlen, távoli kapcsolatokat adok – ez a pszichedelikus állapot egy nagyon egyszerű modellje –, akkor
+        <ol>
+          <li>hogyan változnak a gráfelméleti mérőszámok, és</li>
+          <li>hogyan változik a hálózaton futó oszcillátorok szinkronja?</li>
+        </ol>
+      </div>
+
+      <h2>Előbb próbáld ki</h2>
+      <p>Ez maga az élő modell. Minden pont egy agyterület; a színe a fázisát mutatja, az élek pedig akkor világítanak, ha mindkét végük fázisban van.</p>
+    </div>
+
+    <div class="embed-frame"><iframe src="connectome.html?embed" loading="lazy" title="Live connectome simulation" tabindex="-1"></iframe></div>
+    <div class="btns" style="margin:14px 0 8px"><a class="btn primary" href="connectome.html"><span lang="en">Open the full interactive version →</span><span lang="hu">A teljes interaktív változat →</span></a></div>
+
+    <!-- ===================== ANGOL VÁLTOZAT ===================== -->
+    <div lang="en">
+      <h2>The network</h2>
+      <p>I place <strong>N = 180</strong> points on a brain-shaped surface (two hemispheres with a gap between them) and connect them with a <strong>Watts–Strogatz</strong> graph: start from a ring where every node is linked to its k = 8 nearest neighbours, then rewire each edge with probability p = 0.05. The ring order follows space, so neighbours on the ring are also neighbours in the brain. The shape is only for visualisation – distance plays no role in the dynamics.</p>
+      <ul>
+        <li><strong>Waking:</strong> the small-world graph itself – 720 edges.</li>
+        <li><strong>Psychedelic:</strong> the same graph plus 20% extra random edges – 144 new, mostly long-range connections, 864 edges in total.</li>
+      </ul>
+
+      <h2>The dynamics: Kuramoto oscillators</h2>
+      <p>Every region is an oscillator with phase θ<sub>i</sub> and its own natural frequency ω<sub>i</sub>. Connected regions pull each other's phases together:</p>
+      <div class="eq" data-tex="\frac{d\theta_i}{dt} = \omega_i + \frac{K}{\langle k\rangle}\sum_{j=1}^{N} A_{ij}\,\sin(\theta_j-\theta_i)"></div>
+      <p>Here A is the adjacency matrix, K the coupling strength and ⟨k⟩ the mean degree. Dividing by ⟨k⟩ matters: otherwise the psychedelic network would synchronise more easily simply because it has more edges. The natural frequencies are drawn around 1 Hz, ω<sub>i</sub> ~ 𝒩(2π, 1).</p>
+      <p>Synchrony is measured with the <strong>Kuramoto order parameter</strong>: picture each phase as a unit arrow on a circle and average them.</p>
+      <div class="eq" data-tex="R(t) = \left|\frac{1}{N}\sum_{j=1}^{N} e^{i\theta_j(t)}\right|"></div>
+      <p>Scattered phases cancel out (R ≈ 0); phases pointing the same way give R = 1. From each run I take two numbers: the mean synchrony <strong>⟨R⟩</strong>, and its fluctuation <strong>σ<sub>R</sub></strong> – a measure of <em>metastability</em>, how much the network keeps drifting between more and less synchronised states.</p>
+      <p><strong>Key design choice:</strong> both states get exactly the same frequencies and starting phases. Only the wiring differs, so every difference comes from network structure.</p>
+
+      <h2>Results</h2>
+      <h3>The graph</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th></th><th class="w">Waking</th><th class="p">Psychedelic</th></tr></thead>
+        <tbody>
+          <tr><td>Edges</td><td>720</td><td>864</td></tr>
+          <tr><td>Clustering C</td><td>0.564</td><td>0.415</td></tr>
+          <tr><td>Mean path length L</td><td>4.18</td><td>2.90</td></tr>
+          <tr><td>Global efficiency</td><td>0.287</td><td>0.386</td></tr>
+          <tr><td>Modularity Q</td><td>0.734</td><td>0.615</td></tr>
+          <tr><td>Number of modules</td><td>10</td><td>8</td></tr>
+          <tr><td>Small-world index σ</td><td>8.9</td><td>7.7</td></tr>
+        </tbody>
+      </table></div>
+      <p>The extra edges <strong>reduce segregation</strong> (lower clustering and modularity) and <strong>increase integration</strong> (shorter paths, higher efficiency) – the same direction reported in psychedelic brain imaging. Both networks remain clearly small-world (σ ≫ 1).</p>
+
+      <h3>Synchrony as coupling grows</h3>
+    </div>
+
+    <!-- ===================== MAGYAR VÁLTOZAT ===================== -->
+    <div lang="hu">
+      <h2>A hálózat</h2>
+      <p><strong>N = 180</strong> pontot helyezek el egy agy alakú felületen (két félteke, köztük réssel), és egy <strong>Watts–Strogatz</strong>-gráffal kötöm össze őket: egy gyűrűből indulok, ahol minden csúcs a k = 8 legközelebbi szomszédjával van összekötve, majd minden élt p = 0,05 valószínűséggel átkötök. A gyűrű sorrendje a térbeli elhelyezkedést követi, így a gyűrűn szomszédos csúcsok az agyban is közel vannak. A forma csak a szemléltetést szolgálja – a dinamikában a távolság nem szerepel.</p>
+      <ul>
+        <li><strong>Éber:</strong> maga a kisvilág-gráf – 720 él.</li>
+        <li><strong>Pszichedelikus:</strong> ugyanez, plusz 20% véletlen él – 144 új, többnyire távoli kapcsolat, összesen 864 él.</li>
+      </ul>
+
+      <h2>A dinamika: Kuramoto-oszcillátorok</h2>
+      <p>Minden agyterület egy oszcillátor θ<sub>i</sub> fázissal és saját ω<sub>i</sub> frekvenciával. Az összekötött területek egymás felé húzzák a fázisukat:</p>
+      <div class="eq" data-tex="\frac{d\theta_i}{dt} = \omega_i + \frac{K}{\langle k\rangle}\sum_{j=1}^{N} A_{ij}\,\sin(\theta_j-\theta_i)"></div>
+      <p>Itt A a szomszédsági mátrix, K a csatolás erőssége, ⟨k⟩ az átlagos fokszám. A ⟨k⟩-val való osztás fontos: enélkül a pszichedelikus hálózat pusztán azért szinkronizálna könnyebben, mert több éle van. A saját frekvenciák 1 Hz körül szóródnak: ω<sub>i</sub> ~ 𝒩(2π, 1).</p>
+      <p>A szinkront a <strong>Kuramoto-rendparaméter</strong> méri: minden fázist egy egységvektornak képzelünk a körön, és ezeket átlagoljuk.</p>
+      <div class="eq" data-tex="R(t) = \left|\frac{1}{N}\sum_{j=1}^{N} e^{i\theta_j(t)}\right|"></div>
+      <p>A szétszórt fázisok kioltják egymást (R ≈ 0), az egy irányba mutatók R = 1-et adnak. Minden futásból két számot nézek: az átlagos szinkront, <strong>⟨R⟩</strong>-t, és az ingadozását, <strong>σ<sub>R</sub></strong>-t – ez a <em>metastabilitás</em> mértéke, vagyis hogy mennyire sodródik a hálózat a szinkronabb és a kevésbé szinkron állapotok között.</p>
+      <p><strong>A kulcsdöntés:</strong> a két állapot pontosan ugyanazokat a frekvenciákat és kezdőfázisokat kapja. Csak a huzalozás más, így minden különbség a hálózat szerkezetéből jön.</p>
+
+      <h2>Eredmények</h2>
+      <h3>A gráf</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th></th><th class="w">Éber</th><th class="p">Pszichedelikus</th></tr></thead>
+        <tbody>
+          <tr><td>Élek száma</td><td>720</td><td>864</td></tr>
+          <tr><td>Klaszterezettség C</td><td>0,564</td><td>0,415</td></tr>
+          <tr><td>Átlagos úthossz L</td><td>4,18</td><td>2,90</td></tr>
+          <tr><td>Globális hatékonyság</td><td>0,287</td><td>0,386</td></tr>
+          <tr><td>Modularitás Q</td><td>0,734</td><td>0,615</td></tr>
+          <tr><td>Modulok száma</td><td>10</td><td>8</td></tr>
+          <tr><td>Small-world index σ</td><td>8,9</td><td>7,7</td></tr>
+        </tbody>
+      </table></div>
+      <p>A plusz élek <strong>csökkentik a szegregációt</strong> (kisebb klaszterezettség és modularitás), és <strong>növelik az integrációt</strong> (rövidebb utak, nagyobb hatékonyság) – ugyanabba az irányba, amit a pszichedelikus agyi képalkotó vizsgálatok leírtak. Mindkét hálózat egyértelműen kisvilág marad (σ ≫ 1).</p>
+
+      <h3>A szinkron a csatolás függvényében</h3>
+    </div>
+
+    <!-- K-függés grafikon (az adatok a K_sweep.csv-ből, a lenti scriptben) -->
+    <div class="charts">
+      <figure class="chart" id="chartR"></figure>
+      <figure class="chart" id="chartS"></figure>
+    </div>
+    <div class="chart-legend"><span class="w">● <span lang="en">Waking</span><span lang="hu">Éber</span></span><span class="p">● <span lang="en">Psychedelic</span><span lang="hu">Pszichedelikus</span></span></div>
+
+    <!-- ===================== ANGOL VÁLTOZAT ===================== -->
+    <div lang="en">
+      <ul>
+        <li>At <strong>K = 0</strong> the two curves coincide – without coupling, the network doesn't matter.</li>
+        <li>The psychedelic network <strong>synchronises abruptly</strong> between K ≈ 2.75 and 3.75 (⟨R⟩ jumps from 0.37 to 0.82) and reaches 0.92 at K = 5. The waking network rises only slowly, to 0.60 at K = 5.</li>
+        <li>With strong coupling, fluctuations in the psychedelic network <strong>almost vanish</strong>: the system "freezes" into synchrony. The waking network stays fluctuating – <em>metastable</em> – across the whole range.</li>
+      </ul>
+
+      <h2>Why? Phase waves</h2>
+      <p>In the waking network, connections are mostly local, so a phase needs many steps to reach distant regions (L ≈ 4.2). Neighbouring regions synchronise, but the phase shifts gradually around the ring – these <strong>phase waves</strong> cancel each other out in the global R. The long-range edges short-circuit them: the phase reaches everywhere quickly, and global synchrony forms much more easily.</p>
+
+      <blockquote>Same oscillators, different wiring – and a very different brain-wide rhythm.</blockquote>
+
+      <h2>Limitations</h2>
+      <ul>
+        <li>This is a <strong>toy model</strong>: the network is synthetic, brain-like in type only, not a real (e.g. diffusion-MRI-based) connectome.</li>
+        <li>The psychedelic state is a single parameter (+20% random edges). Real psychedelics don't create new anatomical connections; they change <em>functional</em> connectivity.</li>
+        <li>There are no conduction delays and no noise, both of which appear in more realistic models.</li>
+        <li>Each point on the coupling curve is a single run, hence the noise; averaging over several random seeds would smooth it.</li>
+      </ul>
+
+      <h2>How it was made</h2>
+      <p>The analysis is written in Python (NumPy, NetworkX, Matplotlib): graph measures with NetworkX (modules via the Louvain algorithm), the Kuramoto equations integrated with a 4th-order Runge–Kutta scheme (Δt = 0.02, 120 time units, the first 20 discarded as transient), and nine unit tests against cases with known answers – for example, with K = 0 every oscillator must spin at exactly its own frequency. The interactive version on this site is a JavaScript port of the same model, rendered with three.js.</p>
+
+      <div class="panel"><strong>In one sentence:</strong> adding 20% random long-range edges to a brain-like network reproduces the graph signature of the psychedelic brain – lower modularity, higher efficiency – and lets the same oscillators synchronise at a much weaker coupling (at K = 3, ⟨R⟩ = 0.52 instead of 0.27).</div>
+    </div>
+
+    <!-- ===================== MAGYAR VÁLTOZAT ===================== -->
+    <div lang="hu">
+      <ul>
+        <li><strong>K = 0</strong>-nál a két görbe egybeesik – csatolás nélkül a hálózat nem számít.</li>
+        <li>A pszichedelikus hálózat K ≈ 2,75 és 3,75 között <strong>hirtelen szinkronizálódik</strong> (⟨R⟩: 0,37 → 0,82), és K = 5-nél eléri a 0,92-t. Az éber hálózat csak lassan emelkedik, K = 5-nél 0,60-ig.</li>
+        <li>Erős csatolásnál a pszichedelikus hálózatban az ingadozás <strong>szinte eltűnik</strong>: a rendszer „befagy” a szinkron állapotba. Az éber hálózat a teljes tartományban ingadozó – <em>metastabil</em> – marad.</li>
+      </ul>
+
+      <h2>Miért? Fázishullámok</h2>
+      <p>Az éber hálózatban a kapcsolatok főleg lokálisak, így a fázis csak sok lépésben jut el a távoli területekre (L ≈ 4,2). A szomszédos területek szinkronba kerülnek, de a gyűrű mentén a fázis fokozatosan eltolódik – ezek a <strong>fázishullámok</strong> kioltják egymást a globális R-ben. A távoli élek rövidre zárják őket: a fázis gyorsan eljut mindenhova, és sokkal könnyebben alakul ki globális szinkron.</p>
+
+      <blockquote>Ugyanazok az oszcillátorok, más huzalozás – és egészen más, az egész agyra kiterjedő ritmus.</blockquote>
+
+      <h2>Korlátok</h2>
+      <ul>
+        <li>Ez egy <strong>toy modell</strong>: a hálózat szintetikus, csak a típusa agyszerű, nem valódi (pl. diffúziós MRI-alapú) konnektom.</li>
+        <li>A pszichedelikus állapotot egyetlen paraméter írja le (+20% véletlen él). A valódi pszichedelikumok nem hoznak létre új anatómiai kapcsolatokat, hanem a <em>funkcionális</em> kapcsolatokat változtatják meg.</li>
+        <li>Nincs benne vezetési késleltetés és zaj, amelyek a valósághűbb modellekben szerepelnek.</li>
+        <li>A csatolási görbe minden pontja egyetlen futás, ezért zajos; több véletlenmag átlagolásával simább lenne.</li>
+      </ul>
+
+      <h2>Hogyan készült</h2>
+      <p>Az elemzés Pythonban készült (NumPy, NetworkX, Matplotlib): a gráfmérőszámok NetworkX-szel (a modulok a Louvain-algoritmussal), a Kuramoto-egyenletek negyedrendű Runge–Kutta-módszerrel (Δt = 0,02, 120 időegység, az első 20 beállásként eldobva), és kilenc egységteszt olyan esetekre, ahol ismert a helyes válasz – például K = 0-nál minden oszcillátornak pontosan a saját frekvenciáján kell forognia. Az oldalon futó interaktív változat ugyanennek a modellnek JavaScript-átirata, three.js-szel megjelenítve.</p>
+
+      <div class="panel"><strong>Egy mondatban:</strong> ha egy agyszerű hálózathoz 20% véletlen, távoli élt adunk, az visszaadja a pszichedelikus agy gráf-ujjlenyomatát – kisebb modularitás, nagyobb hatékonyság –, és ugyanazok az oszcillátorok sokkal gyengébb csatolásnál szinkronizálódnak (K = 3-nál ⟨R⟩ = 0,52 a 0,27 helyett).</div>
+    </div>
+
+    <h2><span lang="en">References</span><span lang="hu">Hivatkozások</span></h2>
+    <ol class="refs">
+      <li>E. Bullmore, O. Sporns: Complex brain networks: graph theoretical analysis of structural and functional systems. <em>Nature Reviews Neuroscience</em> 10 (2009) 186–198.</li>
+      <li>D. J. Watts, S. H. Strogatz: Collective dynamics of 'small-world' networks. <em>Nature</em> 393 (1998) 440–442.</li>
+      <li>R. L. Carhart-Harris et al.: Neural correlates of the LSD experience revealed by multimodal neuroimaging. <em>PNAS</em> 113 (2016) 4853–4858.</li>
+      <li>E. Tagliazucchi et al.: Increased global functional connectivity correlates with LSD-induced ego dissolution. <em>Current Biology</em> 26 (2016) 1043–1050.</li>
+      <li>G. Petri et al.: Homological scaffolds of brain functional networks. <em>J. R. Soc. Interface</em> 11 (2014) 20140873.</li>
+      <li>M. Rubinov, O. Sporns: Complex network measures of brain connectivity: uses and interpretations. <em>NeuroImage</em> 52 (2010) 1059–1069.</li>
+      <li>V. Latora, M. Marchiori: Efficient behavior of small-world networks. <em>Physical Review Letters</em> 87 (2001) 198701.</li>
+      <li>M. E. J. Newman: Modularity and community structure in networks. <em>PNAS</em> 103 (2006) 8577–8582.</li>
+      <li>V. D. Blondel et al.: Fast unfolding of communities in large networks. <em>J. Stat. Mech.</em> (2008) P10008.</li>
+      <li>M. D. Humphries, K. Gurney: Network 'small-world-ness': a quantitative method for determining canonical network equivalence. <em>PLoS ONE</em> 3 (2008) e0002051.</li>
+      <li>Y. Kuramoto: <em>Chemical Oscillations, Waves, and Turbulence.</em> Springer, 1984.</li>
+      <li>S. H. Strogatz: From Kuramoto to Crawford: exploring the onset of synchronization in populations of coupled oscillators. <em>Physica D</em> 143 (2000) 1–20.</li>
+      <li>J. Cabral, E. Hugues, O. Sporns, G. Deco: Role of local network oscillations in resting-state functional connectivity. <em>NeuroImage</em> 57 (2011) 130–139.</li>
+      <li>M. Shanahan: Metastable chimera states in community-structured oscillator networks. <em>Chaos</em> 20 (2010) 013108.</li>
+    </ol>
+  </article>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Dóra Pribeli</span>
+    <span><a href="https://ko-fi.com/dorapribeli" target="_blank" rel="noopener">☕ Ko-fi</a> · <span lang="en">Made with curiosity in Budapest</span><span lang="hu">Kíváncsisággal készült Budapesten</span></span>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script>
+/* Képletek (KaTeX) */
+document.querySelectorAll(".eq").forEach(function(el){
+  try{katex.render(el.dataset.tex,el,{displayMode:true,throwOnError:false})}catch(e){el.textContent=el.dataset.tex}
+});
+
+/* K-függés grafikon – adatok: feladat5_toy/eredmenyek_toy/K_sweep.csv (seed = 7) */
+(function(){
+  var K=[0,.25,.5,.75,1,1.25,1.5,1.75,2,2.25,2.5,2.75,3,3.25,3.5,3.75,4,4.25,4.5,4.75,5];
+  var R={w:[.058,.066,.076,.095,.079,.113,.156,.187,.182,.167,.222,.288,.267,.258,.246,.302,.302,.388,.401,.482,.597],
+         p:[.058,.067,.086,.079,.140,.126,.204,.155,.235,.290,.285,.368,.523,.659,.739,.825,.859,.881,.897,.910,.920]};
+  var S={w:[.030,.039,.043,.052,.038,.072,.071,.095,.094,.084,.102,.082,.136,.118,.146,.127,.162,.086,.074,.061,.098],
+         p:[.030,.039,.040,.045,.079,.061,.060,.072,.107,.143,.107,.090,.098,.041,.034,.000,.000,.000,.000,.000,.000]};
+  var C={w:"var(--wake)",p:"var(--psy)"};
+  function chart(el,data,ymax,yticks,title,ylab){
+    var W=360,H=250,l=46,r=12,t=36,b=40,iw=W-l-r,ih=H-t-b;
+    var x=function(k){return l+k/5*iw},y=function(v){return t+ih-v/ymax*ih};
+    var s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+title.en+'">';
+    s+='<text class="ct" x="'+l+'" y="20"><tspan lang="en">'+title.en+'</tspan><tspan lang="hu">'+title.hu+'</tspan></text>';
+    yticks.forEach(function(v){s+='<line class="cg" x1="'+l+'" x2="'+(W-r)+'" y1="'+y(v)+'" y2="'+y(v)+'"/><text class="cl" x="'+(l-8)+'" y="'+(y(v)+4)+'" text-anchor="end">'+v+'</text>'});
+    [0,1,2,3,4,5].forEach(function(k){s+='<text class="cl" x="'+x(k)+'" y="'+(t+ih+18)+'" text-anchor="middle">'+k+'</text>'});
+    s+='<text class="cl" x="'+(l+iw/2)+'" y="'+(H-4)+'" text-anchor="middle"><tspan lang="en">coupling strength K</tspan><tspan lang="hu">csatolási erősség K</tspan></text>';
+    ["w","p"].forEach(function(st){
+      var d=data[st].map(function(v,i){return(i?"L":"M")+x(K[i]).toFixed(1)+" "+y(v).toFixed(1)}).join("");
+      s+='<path d="'+d+'" fill="none" stroke="'+C[st]+'" stroke-width="2" stroke-linejoin="round" style="filter:drop-shadow(0 0 4px '+C[st]+')"/>';
+      data[st].forEach(function(v,i){s+='<circle cx="'+x(K[i]).toFixed(1)+'" cy="'+y(v).toFixed(1)+'" r="2.6" fill="'+C[st]+'"/>'});
+    });
+    el.innerHTML=s+'</svg>';
+  }
+  chart(document.getElementById("chartR"),R,1,[0,.25,.5,.75,1],{en:"Mean synchrony ⟨R⟩",hu:"Átlagos szinkron ⟨R⟩"});
+  chart(document.getElementById("chartS"),S,.18,[0,.05,.1,.15],{en:"Metastability σ_R (fluctuation)",hu:"Metastabilitás σ_R (ingadozás)"});
+})();
+</script>
+<script src="assets/site.js?v=10"></script>
+</body>
+</html>

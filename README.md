@@ -21,6 +21,7 @@ weboldal/
 ├── tartalom.js           ← a PROJEKTEK és az ÍRÁSOK listája – ezt szerkeszted a legtöbbet
 ├── connectome.html       ← projekt: 3D fázishullám-konnektom
 ├── cikk-konnektom.html   ← írás: „Mi az a konnektom?”
+├── projekt-konnektom.html ← projektleírás: a konnektom-modell részletesen (képletek, eredmények, grafikon)
 ├── assets/
 │   ├── style.css         ← kinézet: színek, betűk, elrendezés
 │   └── site.js           ← működés: nyelvváltó, háttér, kártyák (ehhez nem kell nyúlni)
@@ -132,6 +133,7 @@ Nyisd meg a **`tartalom.js`**-t. A `PROJECTS` listában másold le a meglévő `
 | `image` | *(nem kötelező)* kép a `kepek` mappából |
 | `featured: true` | *(nem kötelező)* nagy, kiemelt kártya |
 | `linkText` | *(nem kötelező)* a link szövege |
+| `links` | *(nem kötelező)* több gomb a kártyán, pl. `links: [ { href: "a.html", text: { en: "…", hu: "…" } }, … ]`. Ilyenkor a `link` és a `linkText` nem kell |
 
 A lista sorrendje egyben az oldalon látható sorrend is.
 
