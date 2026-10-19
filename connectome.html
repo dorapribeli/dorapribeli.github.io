@@ -166,6 +166,8 @@ kbd{font-family:var(--f-mono);font-size:10px;color:var(--mute);margin-left:4px}
 <div class="toast" id="toast"></div>
 
 <script>
+/* Beágyazott mód azonnal, még a three.js betöltése előtt (különben a vezérlők egy pillanatra látszanak) */
+if(/[?&](embed|logo)\b/.test(location.search))document.documentElement.classList.add('embed');
 /* ---------- Nyelv (EN/HU) – ugyanazt a beállítást használja, mint a főoldal ---------- */
 const I18N={
   hu:{title:'Fázishullám-konnektom',
