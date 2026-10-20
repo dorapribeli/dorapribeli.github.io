@@ -173,7 +173,7 @@
       <p><strong>Not just one lucky seed.</strong> Each curve is the mean of 20 runs with different random seeds – a different network, different frequencies and starting phases each time – and the shaded band is ±1 standard deviation. For every K ≥ 2 the psychedelic network is more synchronised in at least 18 of the 20 runs (in all 20 from K = 2.5). The table above shows one example network (seed 7); its measures barely vary between seeds.</p>
 
       <h2>Why? Phase waves</h2>
-      <p>In the waking network, connections are mostly local, so a phase needs many steps to reach distant regions (L ≈ 4.2). Phases drift gradually along the spatial ring, forming traveling <strong>phase waves</strong> that average out to near-zero global coherence. The 20% long-range shortcuts act as topological short-circuits: phase signals bypass cortical distance, preventing traveling wave patterns and abruptly locking the whole system into coherence.</p>
+      <p>In the waking network, connections are mostly local, so a phase needs many steps to reach distant regions (L ≈ 4.2). Phases drift gradually along the spatial ring, forming traveling <strong>phase waves</strong> that average out to near-zero global coherence. The 20% long-range shortcuts act as topological short-circuits: phase signals bypass cortical distance, so the travelling waves no longer cancel out, and the onset of global synchrony shifts to a much weaker coupling.</p>
 
       <blockquote>Same oscillators, different wiring – and a very different brain-wide rhythm.</blockquote>
 
@@ -182,6 +182,8 @@
         <li>This is a <strong>toy model</strong>: the network is synthetic, brain-like in type only, not a real (e.g. diffusion-MRI-based) connectome.</li>
         <li>The psychedelic state is a single parameter (+20% random edges). Real psychedelics don't create new anatomical connections; they change <em>functional</em> connectivity.</li>
         <li>There are no conduction delays and no noise, both of which appear in more realistic models.</li>
+        <li><strong>Tension with the "entropic brain" picture.</strong> MEG studies show that psychedelics <em>reduce</em> oscillatory power across a broad frequency range, and the entropic brain hypothesis describes the psychedelic brain as more disordered and flexible, not more ordered. The model follows only phases, not amplitudes, so it cannot capture the power drop. And at strong coupling the psychedelic network freezes into synchrony (σ<sub>R</sub> → 0), which does not match that picture. The model fits it best near the synchronisation transition (K ≈ 1.5–2), where the psychedelic network is the more metastable one; whether the real brain operates there is an open question.</li>
+        <li>Whole-brain models usually explain psychedelic effects through increased neuronal gain via serotonin 2A receptors, not through extra connections. The added edges here are an abstraction of stronger functional coupling between networks, not a mechanism.</li>
         <li>All 20 seeds use the same kind of network; other parameters (N, k, p, share of extra edges) were not explored systematically.</li>
       </ul>
 
@@ -201,7 +203,7 @@
       <p><strong>Nem csak egy szerencsés véletlen.</strong> Minden görbe 20 futás átlaga, különböző véletlenmagokkal (seed) – minden futásban más hálózat, más frekvenciák és kezdőfázisok –, a sáv pedig ±1 szórás. K ≥ 2 esetén a 20 futásból legalább 18-ban (K ≥ 2,5-től mind a 20-ban) szinkronabb a pszichedelikus hálózat, mint az éber. A fenti táblázat egy példahálózatot mutat (seed = 7); a mérőszámai alig változnak seedről seedre.</p>
 
       <h2>Miért? Fázishullámok</h2>
-      <p>Az éber hálózatban a kapcsolatok főleg lokálisak, így a fázis csak sok lépésben jut el a távoli területekre (L ≈ 4,2). A fáziskülönbség fokozatosan halad végig a gyűrűn: lokális hullámfrontok, <strong>fázishullámok</strong> alakulnak ki, amelyek globális szinten kioltják egymást. A 20% véletlenszerű távoli él ezzel szemben topológiai rövidzárlatként működik: a fázisinformáció azonnal átugorja a térbeli távolságokat, megakadályozva a metastabil fázishullámok kialakulását, és hirtelen globális szinkronba rántva a rendszert.</p>
+      <p>Az éber hálózatban a kapcsolatok főleg lokálisak, így a fázis csak sok lépésben jut el a távoli területekre (L ≈ 4,2). A fáziskülönbség fokozatosan halad végig a gyűrűn: lokális hullámfrontok, <strong>fázishullámok</strong> alakulnak ki, amelyek globális szinten kioltják egymást. A 20% véletlenszerű távoli él ezzel szemben topológiai rövidzárlatként működik: a fázisinformáció átugorja a térbeli távolságokat, így a fázishullámok már nem oltják ki egymást, és a globális szinkron sokkal gyengébb csatolásnál alakul ki.</p>
 
       <blockquote>Ugyanazok az oszcillátorok, más huzalozás – és egészen más, az egész agyra kiterjedő ritmus.</blockquote>
 
@@ -210,6 +212,8 @@
         <li>Ez egy <strong>toy modell</strong>: a hálózat szintetikus, csak a típusa agyszerű, nem valódi (pl. diffúziós MRI-alapú) konnektom.</li>
         <li>A pszichedelikus állapotot egyetlen paraméter írja le (+20% véletlen él). A valódi pszichedelikumok nem hoznak létre új anatómiai kapcsolatokat, hanem a <em>funkcionális</em> kapcsolatokat változtatják meg.</li>
         <li>Nincs benne vezetési késleltetés és zaj, amelyek a valósághűbb modellekben szerepelnek.</li>
+        <li><strong>Feszültség az „entropic brain” képpel.</strong> MEG-vizsgálatok szerint a pszichedelikumok széles frekvenciatartományban <em>csökkentik</em> az oszcillációk erejét, az entropic brain hipotézis pedig rendezetlenebbnek és rugalmasabbnak írja le a pszichedelikus agyat, nem rendezettebbnek. A modell csak a fázisokat követi, az amplitúdót nem, így az erő csökkenését nem tudja leírni. Erős csatolásnál ráadásul a pszichedelikus hálózat befagy a szinkronba (σ<sub>R</sub> → 0), ami nem illik ehhez a képhez. A modell a szinkronizációs átmenet közelében (K ≈ 1,5–2) illeszkedik hozzá legjobban, ahol a pszichedelikus hálózat a metastabilabb; hogy a valódi agy ott működik-e, nyitott kérdés.</li>
+        <li>A teljes-agy modellek a pszichedelikus hatást általában a szerotonin-2A-receptorokon keresztül megnövekedett neuronális erősítéssel (gain) magyarázzák, nem plusz kapcsolatokkal. A hozzáadott élek itt a hálózatok közötti erősebb funkcionális csatolás absztrakciói, nem mechanizmus.</li>
         <li>Mind a 20 seed ugyanolyan típusú hálózat; más paramétereket (N, k, p, a plusz élek aránya) nem vizsgáltam szisztematikusan.</li>
       </ul>
 
@@ -235,6 +239,9 @@
       <li>S. H. Strogatz: From Kuramoto to Crawford: exploring the onset of synchronization in populations of coupled oscillators. <em>Physica D</em> 143 (2000) 1–20.</li>
       <li>J. Cabral, E. Hugues, O. Sporns, G. Deco: Role of local network oscillations in resting-state functional connectivity. <em>NeuroImage</em> 57 (2011) 130–139.</li>
       <li>M. Shanahan: Metastable chimera states in community-structured oscillator networks. <em>Chaos</em> 20 (2010) 013108.</li>
+      <li>S. D. Muthukumaraswamy et al.: Broadband cortical desynchronization underlies the human psychedelic state. <em>Journal of Neuroscience</em> 33 (2013) 15171–15183.</li>
+      <li>R. L. Carhart-Harris: The entropic brain – revisited. <em>Neuropharmacology</em> 142 (2018) 167–178.</li>
+      <li>G. Deco et al.: Whole-brain multimodal neuroimaging model using serotonin receptor maps explains non-linear functional effects of LSD. <em>Current Biology</em> 28 (2018) 3065–3074.</li>
     </ol>
   </article>
 </main>
