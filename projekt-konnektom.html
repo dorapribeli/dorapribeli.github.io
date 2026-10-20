@@ -156,21 +156,21 @@
       <h3>A szinkron a csatolás függvényében</h3>
     </div>
 
-    <!-- K-függés grafikon (az adatok a K_sweep.csv-ből, a lenti scriptben) -->
+    <!-- K-függés grafikon (az adatok a 20 seedes K_sweep_seedenkent.csv-ből, a lenti scriptben) -->
     <div class="charts">
       <figure class="chart" id="chartR"></figure>
       <figure class="chart" id="chartS"></figure>
     </div>
-    <div class="chart-legend"><span class="w">● <span lang="en">Waking</span><span lang="hu">Éber</span></span><span class="p">● <span lang="en">Psychedelic</span><span lang="hu">Pszichedelikus</span></span></div>
+    <div class="chart-legend"><span class="w">● <span lang="en">Waking</span><span lang="hu">Éber</span></span><span class="p">● <span lang="en">Psychedelic</span><span lang="hu">Pszichedelikus</span></span><span><span lang="en">mean of 20 seeds · band = ±1 SD</span><span lang="hu">20 seed átlaga · sáv = ±1 szórás</span></span></div>
 
     <!-- ===================== ANGOL VÁLTOZAT ===================== -->
     <div lang="en">
       <ul>
         <li>At <strong>K = 0</strong> the two curves coincide – without coupling, the network doesn't matter.</li>
-        <li>The psychedelic network <strong>synchronises abruptly</strong> between K ≈ 2.75 and 3.75 (⟨R⟩ jumps from 0.37 to 0.82) and reaches 0.92 at K = 5. The waking network rises only slowly, to 0.60 at K = 5.</li>
-        <li>With strong coupling, fluctuations in the psychedelic network <strong>almost vanish</strong>: the system "freezes" into synchrony. The waking network stays fluctuating – <em>metastable</em> – across the whole range.</li>
+        <li>The psychedelic network <strong>synchronises steeply</strong> between K ≈ 1.5 and 3.5 (⟨R⟩ rises from 0.19 to 0.85) and reaches 0.94 at K = 5. The waking network rises only slowly, to 0.55 ± 0.18 at K = 5.</li>
+        <li>With strong coupling (K ≳ 4), fluctuations in the psychedelic network <strong>vanish</strong>: the system "freezes" into synchrony. The waking network stays fluctuating – <em>metastable</em> – across the whole range.</li>
       </ul>
-      <p><strong>Is it just one lucky seed?</strong> The curves above come from a single random seed. Repeating the whole sweep with 20 different seeds (different network, frequencies and starting phases each time), the psychedelic network is more synchronised than the waking one in at least 18 of the 20 runs for every K ≥ 2, and in all 20 from K = 2.5 upward. Averaged over the seeds, ⟨R⟩ at K = 3 is 0.76 ± 0.09 versus 0.29 ± 0.07, and the graph measures barely vary between seeds.</p>
+      <p><strong>Not just one lucky seed.</strong> Each curve is the mean of 20 runs with different random seeds – a different network, different frequencies and starting phases each time – and the shaded band is ±1 standard deviation. For every K ≥ 2 the psychedelic network is more synchronised in at least 18 of the 20 runs (in all 20 from K = 2.5). The table above shows one example network (seed 7); its measures barely vary between seeds.</p>
 
       <h2>Why? Phase waves</h2>
       <p>In the waking network, connections are mostly local, so a phase needs many steps to reach distant regions (L ≈ 4.2). Phases drift gradually along the spatial ring, forming traveling <strong>phase waves</strong> that average out to near-zero global coherence. The 20% long-range shortcuts act as topological short-circuits: phase signals bypass cortical distance, preventing traveling wave patterns and abruptly locking the whole system into coherence.</p>
@@ -182,7 +182,7 @@
         <li>This is a <strong>toy model</strong>: the network is synthetic, brain-like in type only, not a real (e.g. diffusion-MRI-based) connectome.</li>
         <li>The psychedelic state is a single parameter (+20% random edges). Real psychedelics don't create new anatomical connections; they change <em>functional</em> connectivity.</li>
         <li>There are no conduction delays and no noise, both of which appear in more realistic models.</li>
-        <li>The coupling curve shows a single run, hence the noise. The 20-seed check confirms the result, but all seeds use the same kind of network; other parameters (N, k, p, share of extra edges) were not explored systematically.</li>
+        <li>All 20 seeds use the same kind of network; other parameters (N, k, p, share of extra edges) were not explored systematically.</li>
       </ul>
 
       <h2>How it was made</h2>
@@ -195,10 +195,10 @@
     <div lang="hu">
       <ul>
         <li><strong>K = 0</strong>-nál a két görbe egybeesik – csatolás nélkül a hálózat nem számít.</li>
-        <li>A pszichedelikus hálózat K ≈ 2,75 és 3,75 között <strong>hirtelen szinkronizálódik</strong> (⟨R⟩: 0,37 → 0,82), és K = 5-nél eléri a 0,92-t. Az éber hálózat csak lassan emelkedik, K = 5-nél 0,60-ig.</li>
-        <li>Erős csatolásnál a pszichedelikus hálózatban az ingadozás <strong>szinte eltűnik</strong>: a rendszer „befagy” a szinkron állapotba. Az éber hálózat a teljes tartományban ingadozó – <em>metastabil</em> – marad.</li>
+        <li>A pszichedelikus hálózat K ≈ 1,5 és 3,5 között <strong>meredeken szinkronizálódik</strong> (⟨R⟩: 0,19 → 0,85), és K = 5-nél eléri a 0,94-et. Az éber hálózat csak lassan emelkedik, K = 5-nél 0,55 ± 0,18-ig.</li>
+        <li>Erős csatolásnál (K ≳ 4) a pszichedelikus hálózatban az ingadozás <strong>eltűnik</strong>: a rendszer „befagy” a szinkron állapotba. Az éber hálózat a teljes tartományban ingadozó – <em>metastabil</em> – marad.</li>
       </ul>
-      <p><strong>Csak egy szerencsés véletlen?</strong> A fenti görbék egyetlen véletlenmaggal (seed) készültek. 20 különböző seeddel megismételve a teljes K-sweepet (minden futásban más hálózat, más frekvenciák és kezdőfázisok) K ≥ 2 esetén legalább 18, K ≥ 2,5-től pedig mind a 20 futásban szinkronabb a pszichedelikus hálózat, mint az éber. A seedek átlagában K = 3-nál ⟨R⟩ = 0,76 ± 0,09, szemben a 0,29 ± 0,07-del, a gráfmérőszámok pedig alig változnak seedről seedre.</p>
+      <p><strong>Nem csak egy szerencsés véletlen.</strong> Minden görbe 20 futás átlaga, különböző véletlenmagokkal (seed) – minden futásban más hálózat, más frekvenciák és kezdőfázisok –, a sáv pedig ±1 szórás. K ≥ 2 esetén a 20 futásból legalább 18-ban (K ≥ 2,5-től mind a 20-ban) szinkronabb a pszichedelikus hálózat, mint az éber. A fenti táblázat egy példahálózatot mutat (seed = 7); a mérőszámai alig változnak seedről seedre.</p>
 
       <h2>Miért? Fázishullámok</h2>
       <p>Az éber hálózatban a kapcsolatok főleg lokálisak, így a fázis csak sok lépésben jut el a távoli területekre (L ≈ 4,2). A fáziskülönbség fokozatosan halad végig a gyűrűn: lokális hullámfrontok, <strong>fázishullámok</strong> alakulnak ki, amelyek globális szinten kioltják egymást. A 20% véletlenszerű távoli él ezzel szemben topológiai rövidzárlatként működik: a fázisinformáció azonnal átugorja a térbeli távolságokat, megakadályozva a metastabil fázishullámok kialakulását, és hirtelen globális szinkronba rántva a rendszert.</p>
@@ -210,7 +210,7 @@
         <li>Ez egy <strong>toy modell</strong>: a hálózat szintetikus, csak a típusa agyszerű, nem valódi (pl. diffúziós MRI-alapú) konnektom.</li>
         <li>A pszichedelikus állapotot egyetlen paraméter írja le (+20% véletlen él). A valódi pszichedelikumok nem hoznak létre új anatómiai kapcsolatokat, hanem a <em>funkcionális</em> kapcsolatokat változtatják meg.</li>
         <li>Nincs benne vezetési késleltetés és zaj, amelyek a valósághűbb modellekben szerepelnek.</li>
-        <li>A csatolási görbe egyetlen futás, ezért zajos. A 20 seedes ellenőrzés megerősíti az eredményt, de minden seed ugyanolyan típusú hálózat; más paramétereket (N, k, p, a plusz élek aránya) nem vizsgáltam szisztematikusan.</li>
+        <li>Mind a 20 seed ugyanolyan típusú hálózat; más paramétereket (N, k, p, a plusz élek aránya) nem vizsgáltam szisztematikusan.</li>
       </ul>
 
       <h2>Hogyan készült</h2>
@@ -253,13 +253,19 @@ document.querySelectorAll(".eq").forEach(function(el){
   try{katex.render(el.dataset.tex,el,{displayMode:true,throwOnError:false})}catch(e){el.textContent=el.dataset.tex}
 });
 
-/* K-függés grafikon – adatok: feladat5_toy/eredmenyek_toy/K_sweep.csv (seed = 7) */
+/* K-függés grafikon – 20 seed átlaga (vonal) és szórása (sáv):
+   feladat5_toy/eredmenyek_seedek/K_sweep_seedenkent.csv */
 (function(){
   var K=[0,.25,.5,.75,1,1.25,1.5,1.75,2,2.25,2.5,2.75,3,3.25,3.5,3.75,4,4.25,4.5,4.75,5];
-  var R={w:[.058,.066,.076,.095,.079,.113,.156,.187,.182,.167,.222,.288,.267,.258,.246,.302,.302,.388,.401,.482,.597],
-         p:[.058,.067,.086,.079,.140,.126,.204,.155,.235,.290,.285,.368,.523,.659,.739,.825,.859,.881,.897,.910,.920]};
-  var S={w:[.030,.039,.043,.052,.038,.072,.071,.095,.094,.084,.102,.082,.136,.118,.146,.127,.162,.086,.074,.061,.098],
-         p:[.030,.039,.040,.045,.079,.061,.060,.072,.107,.143,.107,.090,.098,.041,.034,.000,.000,.000,.000,.000,.000]};
+  // m = átlag, d = szórás a 20 seedre
+  var R={w:{m:[.066,.072,.081,.098,.107,.135,.173,.188,.209,.236,.277,.274,.293,.338,.338,.390,.427,.483,.490,.496,.551],
+            d:[.006,.007,.014,.011,.015,.018,.032,.040,.040,.048,.052,.059,.068,.110,.114,.118,.134,.139,.158,.156,.182]},
+         p:{m:[.066,.073,.082,.097,.115,.137,.190,.252,.355,.446,.582,.683,.755,.811,.849,.879,.900,.914,.926,.934,.942],
+            d:[.006,.006,.011,.012,.016,.015,.039,.054,.116,.146,.133,.112,.088,.063,.048,.035,.027,.023,.020,.017,.015]}};
+  var S={w:{m:[.033,.036,.042,.048,.055,.068,.072,.087,.090,.109,.125,.120,.122,.113,.113,.112,.113,.109,.099,.095,.093],
+            d:[.004,.004,.008,.007,.011,.010,.012,.020,.018,.025,.025,.041,.035,.040,.045,.043,.038,.052,.061,.061,.062]},
+         p:{m:[.033,.036,.043,.050,.060,.068,.081,.105,.097,.095,.071,.044,.028,.015,.008,.003,.001,0,0,0,0],
+            d:[.004,.005,.006,.005,.009,.012,.017,.020,.033,.044,.041,.035,.025,.011,.010,.008,.004,0,0,0,0]}};
   var C={w:"var(--wake)",p:"var(--psy)"};
   function chart(el,data,ymax,yticks,title,ylab){
     var W=360,H=250,l=46,r=12,t=36,b=40,iw=W-l-r,ih=H-t-b;
@@ -269,10 +275,17 @@ document.querySelectorAll(".eq").forEach(function(el){
     yticks.forEach(function(v){s+='<line class="cg" x1="'+l+'" x2="'+(W-r)+'" y1="'+y(v)+'" y2="'+y(v)+'"/><text class="cl" x="'+(l-8)+'" y="'+(y(v)+4)+'" text-anchor="end">'+v+'</text>'});
     [0,1,2,3,4,5].forEach(function(k){s+='<text class="cl" x="'+x(k)+'" y="'+(t+ih+18)+'" text-anchor="middle">'+k+'</text>'});
     s+='<text class="cl" x="'+(l+iw/2)+'" y="'+(H-4)+'" text-anchor="middle"><tspan lang="en">coupling strength K</tspan><tspan lang="hu">csatolási erősség K</tspan></text>';
+    // sávok (±1 szórás), a 0 és a tengely teteje közé vágva
     ["w","p"].forEach(function(st){
-      var d=data[st].map(function(v,i){return(i?"L":"M")+x(K[i]).toFixed(1)+" "+y(v).toFixed(1)}).join("");
+      var m=data[st].m,sd=data[st].d,cl=function(v){return Math.max(0,Math.min(ymax,v))};
+      var top=m.map(function(v,i){return x(K[i]).toFixed(1)+","+y(cl(v+sd[i])).toFixed(1)});
+      var bot=m.map(function(v,i){return x(K[i]).toFixed(1)+","+y(cl(v-sd[i])).toFixed(1)}).reverse();
+      s+='<polygon points="'+top.concat(bot).join(" ")+'" fill="'+C[st]+'" fill-opacity="0.18" stroke="none"/>';
+    });
+    ["w","p"].forEach(function(st){
+      var d=data[st].m.map(function(v,i){return(i?"L":"M")+x(K[i]).toFixed(1)+" "+y(v).toFixed(1)}).join("");
       s+='<path d="'+d+'" fill="none" stroke="'+C[st]+'" stroke-width="2" stroke-linejoin="round" style="filter:drop-shadow(0 0 4px '+C[st]+')"/>';
-      data[st].forEach(function(v,i){s+='<circle cx="'+x(K[i]).toFixed(1)+'" cy="'+y(v).toFixed(1)+'" r="2.6" fill="'+C[st]+'"/>'});
+      data[st].m.forEach(function(v,i){s+='<circle cx="'+x(K[i]).toFixed(1)+'" cy="'+y(v).toFixed(1)+'" r="2.6" fill="'+C[st]+'"/>'});
     });
     el.innerHTML=s+'</svg>';
   }
