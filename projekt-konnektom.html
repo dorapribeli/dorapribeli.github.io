@@ -42,8 +42,9 @@
       <h1>Phase waves in the waking and psychedelic brain</h1>
       <div class="meta">2026 · 7 min read · Python + JavaScript</div>
 
-      <p>Brain networks are a balancing act. They are <strong>segregated</strong> – densely connected, specialised modules – and at the same time <strong>integrated</strong>, with short paths between those modules. Networks with this combination are called <em>small-world</em> networks.</p>
-      <p>Brain-imaging studies of psychedelics such as LSD report a shift in this balance: connectivity <em>within</em> brain networks drops, while connectivity <em>between</em> them grows. In short: less segregation, more integration.</p>
+      <p>Under psychedelics, brain connectivity shifts dramatically: modular boundaries dissolve, and distant regions begin talking directly to one another. But how much network rewiring is actually needed to trigger that shift?</p>
+      <p>In this project, I test a minimal hypothesis: can adding a modest number of random long-range shortcuts to a small-world network recreate the dynamical signature of the psychedelic brain?</p>
+      <p>Using 180 coupled Kuramoto oscillators running on a synthetic cortical surface, this model simulates how local phase waves give way to abrupt global synchrony.</p>
 
       <div class="panel">
         <strong>The question.</strong> If I take a brain-like small-world network and add random long-range connections – a very simple model of the psychedelic state –
@@ -62,8 +63,9 @@
       <h1>Fázishullámok az éber és a pszichedelikus agyban</h1>
       <div class="meta">2026 · 7 perc olvasás · Python + JavaScript</div>
 
-      <p>Az agyi hálózatok egyensúlyozó művészek. Egyszerre <strong>szegregáltak</strong> – sűrűn kapcsolt, specializált modulokból állnak –, és <strong>integráltak</strong>, rövid utakkal a modulok között. Az ilyen hálózatokat <em>kisvilág</em> (small-world) hálózatnak nevezzük.</p>
-      <p>Pszichedelikumok (pl. LSD) hatása alatt végzett agyi képalkotó vizsgálatok szerint ez az egyensúly eltolódik: a hálózatokon <em>belüli</em> kapcsolatok gyengülnek, a hálózatok <em>közötti</em> kapcsolatok erősödnek. Röviden: kevesebb szegregáció, több integráció.</p>
+      <p>Pszichedelikumok hatása alatt az agy funkcionális kapcsolatai drámaian átrendeződnek: az elkülönült modulok közötti határok elmosódnak, a kommunikáció globálissá és integrálttá válik. De mennyi kell ebből egy hálózat szintjén?</p>
+      <p>Ebben a projektben egy egyszerű kérdésre kerestem választ: elég-e viszonylag kevés véletlenszerű, távoli kapcsolatot hozzáadni egy kisvilág-hálózathoz, hogy megjelenjen a pszichedelikus agy jellegzetes dinamikája?</p>
+      <p>A válaszhoz 180 csatolt Kuramoto-oszcillátort futtattam egy szintetikus agyfelületen – az alábbi élő modellen a huzalozás és a fázisszinkron azonnal kipróbálható.</p>
 
       <div class="panel">
         <strong>A kérdés.</strong> Ha egy agyszerű kisvilág-hálózathoz véletlen, távoli kapcsolatokat adok – ez a pszichedelikus állapot egy nagyon egyszerű modellje –, akkor
@@ -112,7 +114,7 @@
           <tr><td>Small-world index σ</td><td>8.9</td><td>7.7</td></tr>
         </tbody>
       </table></div>
-      <p>The extra edges <strong>reduce segregation</strong> (lower clustering and modularity) and <strong>increase integration</strong> (shorter paths, higher efficiency) – the same direction reported in psychedelic brain imaging. Both networks remain clearly small-world (σ ≫ 1).</p>
+      <p>The extra edges <strong>reduce segregation</strong> (lower clustering and modularity) and <strong>increase integration</strong> (shorter paths, higher efficiency) – the same direction reported in psychedelic brain imaging. Although both networks remain strictly small-world (σ ≫ 1), the drop in modularity (0.734 → 0.615) and the rise in global efficiency (0.287 → 0.386) follow the “global integration / decreased modular segregation” pattern described in the functional connectivity literature.</p>
 
       <h3>Synchrony as coupling grows</h3>
     </div>
@@ -149,7 +151,7 @@
           <tr><td>Small-world index σ</td><td>8,9</td><td>7,7</td></tr>
         </tbody>
       </table></div>
-      <p>A plusz élek <strong>csökkentik a szegregációt</strong> (kisebb klaszterezettség és modularitás), és <strong>növelik az integrációt</strong> (rövidebb utak, nagyobb hatékonyság) – ugyanabba az irányba, amit a pszichedelikus agyi képalkotó vizsgálatok leírtak. Mindkét hálózat egyértelműen kisvilág marad (σ ≫ 1).</p>
+      <p>A plusz élek <strong>csökkentik a szegregációt</strong> (kisebb klaszterezettség és modularitás), és <strong>növelik az integrációt</strong> (rövidebb utak, nagyobb hatékonyság) – ugyanabba az irányba, amit a pszichedelikus agyi képalkotó vizsgálatok leírtak. Bár mindkét hálózat szigorúan véve kisvilág marad (σ ≫ 1), a modularitás csökkenése (0,734 → 0,615) és a globális hatékonyság növekedése (0,287 → 0,386) a funkcionális konnektivitási irodalomban leírt „global integration / decreased modular segregation” mintázatot követi.</p>
 
       <h3>A szinkron a csatolás függvényében</h3>
     </div>
@@ -168,9 +170,10 @@
         <li>The psychedelic network <strong>synchronises abruptly</strong> between K ≈ 2.75 and 3.75 (⟨R⟩ jumps from 0.37 to 0.82) and reaches 0.92 at K = 5. The waking network rises only slowly, to 0.60 at K = 5.</li>
         <li>With strong coupling, fluctuations in the psychedelic network <strong>almost vanish</strong>: the system "freezes" into synchrony. The waking network stays fluctuating – <em>metastable</em> – across the whole range.</li>
       </ul>
+      <p><strong>Is it just one lucky seed?</strong> The curves above come from a single random seed. Repeating the whole sweep with 20 different seeds (different network, frequencies and starting phases each time), the psychedelic network is more synchronised than the waking one in at least 18 of the 20 runs for every K ≥ 2, and in all 20 from K = 2.5 upward. Averaged over the seeds, ⟨R⟩ at K = 3 is 0.76 ± 0.09 versus 0.29 ± 0.07, and the graph measures barely vary between seeds.</p>
 
       <h2>Why? Phase waves</h2>
-      <p>In the waking network, connections are mostly local, so a phase needs many steps to reach distant regions (L ≈ 4.2). Neighbouring regions synchronise, but the phase shifts gradually around the ring – these <strong>phase waves</strong> cancel each other out in the global R. The long-range edges short-circuit them: the phase reaches everywhere quickly, and global synchrony forms much more easily.</p>
+      <p>In the waking network, connections are mostly local, so a phase needs many steps to reach distant regions (L ≈ 4.2). Phases drift gradually along the spatial ring, forming traveling <strong>phase waves</strong> that average out to near-zero global coherence. The 20% long-range shortcuts act as topological short-circuits: phase signals bypass cortical distance, preventing traveling wave patterns and abruptly locking the whole system into coherence.</p>
 
       <blockquote>Same oscillators, different wiring – and a very different brain-wide rhythm.</blockquote>
 
@@ -179,13 +182,13 @@
         <li>This is a <strong>toy model</strong>: the network is synthetic, brain-like in type only, not a real (e.g. diffusion-MRI-based) connectome.</li>
         <li>The psychedelic state is a single parameter (+20% random edges). Real psychedelics don't create new anatomical connections; they change <em>functional</em> connectivity.</li>
         <li>There are no conduction delays and no noise, both of which appear in more realistic models.</li>
-        <li>Each point on the coupling curve is a single run, hence the noise; averaging over several random seeds would smooth it.</li>
+        <li>The coupling curve shows a single run, hence the noise. The 20-seed check confirms the result, but all seeds use the same kind of network; other parameters (N, k, p, share of extra edges) were not explored systematically.</li>
       </ul>
 
       <h2>How it was made</h2>
-      <p>The analysis is written in Python (NumPy, NetworkX, Matplotlib): graph measures with NetworkX (modules via the Louvain algorithm), the Kuramoto equations integrated with a 4th-order Runge–Kutta scheme (Δt = 0.02, 120 time units, the first 20 discarded as transient), and nine unit tests against cases with known answers – for example, with K = 0 every oscillator must spin at exactly its own frequency. The interactive version on this site is a JavaScript port of the same model, rendered with three.js.</p>
+      <p>The analysis is written in Python (NumPy, NetworkX, Matplotlib): graph measures with NetworkX (modules via the Louvain algorithm), the Kuramoto equations integrated with a 4th-order Runge–Kutta scheme (Δt = 0.02, 120 time units, the first 20 discarded as transient), a robustness check over 20 random seeds, and nine unit tests against cases with known answers – for example, with K = 0 every oscillator must spin at exactly its own frequency. The interactive version on this site is a JavaScript port of the same model, rendered with three.js.</p>
 
-      <div class="panel"><strong>In one sentence:</strong> adding 20% random long-range edges to a brain-like network reproduces the graph signature of the psychedelic brain – lower modularity, higher efficiency – and lets the same oscillators synchronise at a much weaker coupling (at K = 3, ⟨R⟩ = 0.52 instead of 0.27).</div>
+      <div class="panel"><strong>In one sentence:</strong> adding 20% random long-range edges to a brain-like network reproduces the graph signature of the psychedelic brain – lower modularity, higher efficiency – and lets the same oscillators synchronise at a much weaker coupling (at K = 3, ⟨R⟩ = 0.76 instead of 0.29, averaged over 20 seeds).</div>
     </div>
 
     <!-- ===================== MAGYAR VÁLTOZAT ===================== -->
@@ -195,9 +198,10 @@
         <li>A pszichedelikus hálózat K ≈ 2,75 és 3,75 között <strong>hirtelen szinkronizálódik</strong> (⟨R⟩: 0,37 → 0,82), és K = 5-nél eléri a 0,92-t. Az éber hálózat csak lassan emelkedik, K = 5-nél 0,60-ig.</li>
         <li>Erős csatolásnál a pszichedelikus hálózatban az ingadozás <strong>szinte eltűnik</strong>: a rendszer „befagy” a szinkron állapotba. Az éber hálózat a teljes tartományban ingadozó – <em>metastabil</em> – marad.</li>
       </ul>
+      <p><strong>Csak egy szerencsés véletlen?</strong> A fenti görbék egyetlen véletlenmaggal (seed) készültek. 20 különböző seeddel megismételve a teljes K-sweepet (minden futásban más hálózat, más frekvenciák és kezdőfázisok) K ≥ 2 esetén legalább 18, K ≥ 2,5-től pedig mind a 20 futásban szinkronabb a pszichedelikus hálózat, mint az éber. A seedek átlagában K = 3-nál ⟨R⟩ = 0,76 ± 0,09, szemben a 0,29 ± 0,07-del, a gráfmérőszámok pedig alig változnak seedről seedre.</p>
 
       <h2>Miért? Fázishullámok</h2>
-      <p>Az éber hálózatban a kapcsolatok főleg lokálisak, így a fázis csak sok lépésben jut el a távoli területekre (L ≈ 4,2). A szomszédos területek szinkronba kerülnek, de a gyűrű mentén a fázis fokozatosan eltolódik – ezek a <strong>fázishullámok</strong> kioltják egymást a globális R-ben. A távoli élek rövidre zárják őket: a fázis gyorsan eljut mindenhova, és sokkal könnyebben alakul ki globális szinkron.</p>
+      <p>Az éber hálózatban a kapcsolatok főleg lokálisak, így a fázis csak sok lépésben jut el a távoli területekre (L ≈ 4,2). A fáziskülönbség fokozatosan halad végig a gyűrűn: lokális hullámfrontok, <strong>fázishullámok</strong> alakulnak ki, amelyek globális szinten kioltják egymást. A 20% véletlenszerű távoli él ezzel szemben topológiai rövidzárlatként működik: a fázisinformáció azonnal átugorja a térbeli távolságokat, megakadályozva a metastabil fázishullámok kialakulását, és hirtelen globális szinkronba rántva a rendszert.</p>
 
       <blockquote>Ugyanazok az oszcillátorok, más huzalozás – és egészen más, az egész agyra kiterjedő ritmus.</blockquote>
 
@@ -206,13 +210,13 @@
         <li>Ez egy <strong>toy modell</strong>: a hálózat szintetikus, csak a típusa agyszerű, nem valódi (pl. diffúziós MRI-alapú) konnektom.</li>
         <li>A pszichedelikus állapotot egyetlen paraméter írja le (+20% véletlen él). A valódi pszichedelikumok nem hoznak létre új anatómiai kapcsolatokat, hanem a <em>funkcionális</em> kapcsolatokat változtatják meg.</li>
         <li>Nincs benne vezetési késleltetés és zaj, amelyek a valósághűbb modellekben szerepelnek.</li>
-        <li>A csatolási görbe minden pontja egyetlen futás, ezért zajos; több véletlenmag átlagolásával simább lenne.</li>
+        <li>A csatolási görbe egyetlen futás, ezért zajos. A 20 seedes ellenőrzés megerősíti az eredményt, de minden seed ugyanolyan típusú hálózat; más paramétereket (N, k, p, a plusz élek aránya) nem vizsgáltam szisztematikusan.</li>
       </ul>
 
       <h2>Hogyan készült</h2>
-      <p>Az elemzés Pythonban készült (NumPy, NetworkX, Matplotlib): a gráfmérőszámok NetworkX-szel (a modulok a Louvain-algoritmussal), a Kuramoto-egyenletek negyedrendű Runge–Kutta-módszerrel (Δt = 0,02, 120 időegység, az első 20 beállásként eldobva), és kilenc egységteszt olyan esetekre, ahol ismert a helyes válasz – például K = 0-nál minden oszcillátornak pontosan a saját frekvenciáján kell forognia. Az oldalon futó interaktív változat ugyanennek a modellnek JavaScript-átirata, three.js-szel megjelenítve.</p>
+      <p>Az elemzés Pythonban készült (NumPy, NetworkX, Matplotlib): a gráfmérőszámok NetworkX-szel (a modulok a Louvain-algoritmussal), a Kuramoto-egyenletek negyedrendű Runge–Kutta-módszerrel (Δt = 0,02, 120 időegység, az első 20 beállásként eldobva), 20 véletlenmagos robusztussági ellenőrzés, és kilenc egységteszt olyan esetekre, ahol ismert a helyes válasz – például K = 0-nál minden oszcillátornak pontosan a saját frekvenciáján kell forognia. Az oldalon futó interaktív változat ugyanennek a modellnek JavaScript-átirata, three.js-szel megjelenítve.</p>
 
-      <div class="panel"><strong>Egy mondatban:</strong> ha egy agyszerű hálózathoz 20% véletlen, távoli élt adunk, az visszaadja a pszichedelikus agy gráf-ujjlenyomatát – kisebb modularitás, nagyobb hatékonyság –, és ugyanazok az oszcillátorok sokkal gyengébb csatolásnál szinkronizálódnak (K = 3-nál ⟨R⟩ = 0,52 a 0,27 helyett).</div>
+      <div class="panel"><strong>Egy mondatban:</strong> ha egy agyszerű hálózathoz 20% véletlen, távoli élt adunk, az visszaadja a pszichedelikus agy gráf-ujjlenyomatát – kisebb modularitás, nagyobb hatékonyság –, és ugyanazok az oszcillátorok sokkal gyengébb csatolásnál szinkronizálódnak (K = 3-nál ⟨R⟩ = 0,76 a 0,29 helyett, 20 seed átlagában).</div>
     </div>
 
     <h2><span lang="en">References</span><span lang="hu">Hivatkozások</span></h2>
