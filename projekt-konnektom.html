@@ -177,12 +177,21 @@
 
       <blockquote>Same oscillators, different wiring – and a very different brain-wide rhythm.</blockquote>
 
+      <h2>How it fits the literature</h2>
+      <p>Psychedelics don't simply raise or lower synchrony – they change its character, and the picture differs by level:</p>
+      <ul>
+        <li><strong>Local rhythms (EEG/MEG):</strong> oscillatory power, especially alpha, drops sharply (Muthukumaraswamy et al., 2013). The model tracks only phases, so it cannot show this.</li>
+        <li><strong>Between networks (fMRI):</strong> coupling between networks increases; within-network decreases are weaker (Tagliazucchi et al., 2016; Girn et al., 2026). This is what the model captures.</li>
+        <li><strong>Dynamics:</strong> activity becomes more varied and higher in entropy (Schartner et al., 2017; Carhart-Harris, 2018), not frozen.</li>
+      </ul>
+      <p>So the model matches the data near the transition, but at strong coupling (K ≳ 4) the noise-free simulation freezes into rigid synchrony (⟨R⟩ ≈ 0.9, σ<sub>R</sub> → 0) – something the real psychedelic brain does not do.</p>
+
       <h2>Limitations</h2>
       <ul>
         <li>This is a <strong>toy model</strong>: the network is synthetic, brain-like in type only, not a real (e.g. diffusion-MRI-based) connectome.</li>
         <li>The psychedelic state is a single parameter (+20% random edges). Real psychedelics don't create new anatomical connections; they change <em>functional</em> connectivity.</li>
         <li>There are no conduction delays and no noise, both of which appear in more realistic models.</li>
-        <li><strong>Tension with the "entropic brain" picture.</strong> MEG studies show that psychedelics <em>reduce</em> oscillatory power across a broad frequency range, and the entropic brain hypothesis describes the psychedelic brain as more disordered and flexible, not more ordered. The model follows only phases, not amplitudes, so it cannot capture the power drop. And at strong coupling the psychedelic network freezes into synchrony (σ<sub>R</sub> → 0), which does not match that picture. The model fits it best near the synchronisation transition (K ≈ 1.5–2), where the psychedelic network is the more metastable one; whether the real brain operates there is an open question.</li>
+        <li>The model follows only phases, not amplitudes, and has no noise; this is likely why it freezes at strong coupling (see above). Adding noise was not tested.</li>
         <li>Whole-brain models usually explain psychedelic effects through increased neuronal gain via serotonin 2A receptors, not through extra connections. The added edges here are an abstraction of stronger functional coupling between networks, not a mechanism.</li>
         <li>All 20 seeds use the same kind of network; other parameters (N, k, p, share of extra edges) were not explored systematically.</li>
       </ul>
@@ -207,12 +216,21 @@
 
       <blockquote>Ugyanazok az oszcillátorok, más huzalozás – és egészen más, az egész agyra kiterjedő ritmus.</blockquote>
 
+      <h2>Hogyan illeszkedik a szakirodalomhoz?</h2>
+      <p>A pszichedelikumok nem egyszerűen növelik vagy csökkentik a szinkront, hanem a jellegét változtatják meg, és szintenként más a kép:</p>
+      <ul>
+        <li><strong>Lokális ritmusok (EEG/MEG):</strong> az oszcillációk ereje, főleg az alfa-sávé, erősen csökken (Muthukumaraswamy és mtsai., 2013). A modell csak fázisokat követ, ezt nem tudja megmutatni.</li>
+        <li><strong>Hálózatok között (fMRI):</strong> a hálózatok közötti csatolás erősödik, a hálózatokon belüli gyengülés kisebb (Tagliazucchi és mtsai., 2016; Girn és mtsai., 2026). Ezt ragadja meg a modell.</li>
+        <li><strong>Dinamika:</strong> az aktivitás változatosabb, nagyobb entrópiájú lesz (Schartner és mtsai., 2017; Carhart-Harris, 2018), nem befagyott.</li>
+      </ul>
+      <p>A modell tehát az átmenet közelében egyezik az adatokkal, erős csatolásnál (K ≳ 4) viszont a zajmentes szimuláció merev szinkronba fagy (⟨R⟩ ≈ 0,9, σ<sub>R</sub> → 0), amit a valódi pszichedelikus agy nem csinál.</p>
+
       <h2>Korlátok</h2>
       <ul>
         <li>Ez egy <strong>toy modell</strong>: a hálózat szintetikus, csak a típusa agyszerű, nem valódi (pl. diffúziós MRI-alapú) konnektom.</li>
         <li>A pszichedelikus állapotot egyetlen paraméter írja le (+20% véletlen él). A valódi pszichedelikumok nem hoznak létre új anatómiai kapcsolatokat, hanem a <em>funkcionális</em> kapcsolatokat változtatják meg.</li>
         <li>Nincs benne vezetési késleltetés és zaj, amelyek a valósághűbb modellekben szerepelnek.</li>
-        <li><strong>Feszültség az „entropic brain” képpel.</strong> MEG-vizsgálatok szerint a pszichedelikumok széles frekvenciatartományban <em>csökkentik</em> az oszcillációk erejét, az entropic brain hipotézis pedig rendezetlenebbnek és rugalmasabbnak írja le a pszichedelikus agyat, nem rendezettebbnek. A modell csak a fázisokat követi, az amplitúdót nem, így az erő csökkenését nem tudja leírni. Erős csatolásnál ráadásul a pszichedelikus hálózat befagy a szinkronba (σ<sub>R</sub> → 0), ami nem illik ehhez a képhez. A modell a szinkronizációs átmenet közelében (K ≈ 1,5–2) illeszkedik hozzá legjobban, ahol a pszichedelikus hálózat a metastabilabb; hogy a valódi agy ott működik-e, nyitott kérdés.</li>
+        <li>A modell csak fázisokat követ, amplitúdót nem, és nincs benne zaj; valószínűleg ezért fagy be erős csatolásnál (ld. fent). Zajjal nem próbáltam ki.</li>
         <li>A teljes-agy modellek a pszichedelikus hatást általában a szerotonin-2A-receptorokon keresztül megnövekedett neuronális erősítéssel (gain) magyarázzák, nem plusz kapcsolatokkal. A hozzáadott élek itt a hálózatok közötti erősebb funkcionális csatolás absztrakciói, nem mechanizmus.</li>
         <li>Mind a 20 seed ugyanolyan típusú hálózat; más paramétereket (N, k, p, a plusz élek aránya) nem vizsgáltam szisztematikusan.</li>
       </ul>
@@ -242,6 +260,8 @@
       <li>S. D. Muthukumaraswamy et al.: Broadband cortical desynchronization underlies the human psychedelic state. <em>Journal of Neuroscience</em> 33 (2013) 15171–15183.</li>
       <li>R. L. Carhart-Harris: The entropic brain – revisited. <em>Neuropharmacology</em> 142 (2018) 167–178.</li>
       <li>G. Deco et al.: Whole-brain multimodal neuroimaging model using serotonin receptor maps explains non-linear functional effects of LSD. <em>Current Biology</em> 28 (2018) 3065–3074.</li>
+      <li>M. M. Schartner et al.: Increased spontaneous MEG signal diversity for psychoactive doses of ketamine, LSD and psilocybin. <em>Scientific Reports</em> 7 (2017) 46421.</li>
+      <li>M. Girn et al.: An international mega-analysis of psychedelic drug effects on brain circuit function. <em>Nature Medicine</em> (2026).</li>
     </ol>
   </article>
 </main>
