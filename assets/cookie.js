@@ -5,7 +5,7 @@
 (function(){
   // Beágyazva (iframe, pl. connectome.html?embed) nem mutatunk bannert és nem mérünk duplán
   try{ if (window.self !== window.top) return; }catch(e){ return; }
-  var GA_ID = 'G-W5TVK9PKT6';
+  var GA_ID = 'G-Q86MG2E4D5';
   var KEY = 'cookie-consent'; // 'yes' | 'no'
 
   var TXT = {
