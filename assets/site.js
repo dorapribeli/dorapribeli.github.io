@@ -131,10 +131,7 @@
     }
     function start(){running=true;last=performance.now();requestAnimationFrame(loop)}
     // Always animate, even when the visitor's system asks for reduced motion (owner's choice)
-    // ...de csak amíg látszik a képernyőn (teljesítmény, főleg mobilon)
-    if('IntersectionObserver' in window){
-      new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){if(!running)start()}else running=false})}).observe(canvas);
-    }else start();
+    start();
   }
   sim(document.getElementById("osc"),{n:64,dot:4.5,label:true});
   document.querySelectorAll(".osc-thumb").forEach(function(c){sim(c,{n:48,dot:3.5})});
@@ -267,20 +264,13 @@
     var n=Math.round(Math.min(90,W*H/14000));Pt=[];
     for(var i=0;i<n;i++)Pt.push({x:rnd()*W,y:rnd()*H,r:.8+rnd()*1.8,c:C[i%4],vx:(rnd()-.5)*.2,vy:-.05-rnd()*.22,ph:rnd()*6.28,sp:.4+rnd()*1.4});
   }
-  // Előre megrajzolt fényfolt színenként (gyorsabb, mint minden képkockán új gradienst számolni)
-  var SP={};
-  function sprite(c){
-    if(SP[c])return SP[c];
-    var s=document.createElement("canvas"),S=64;s.width=s.height=S;var x=s.getContext("2d");
-    var g=x.createRadialGradient(S/2,S/2,0,S/2,S/2,S/2);g.addColorStop(0,c);g.addColorStop(1,"rgba(0,0,0,0)");
-    x.fillStyle=g;x.fillRect(0,0,S,S);return SP[c]=s;
-  }
   function draw(t){
     ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,H);ctx.globalCompositeOperation="lighter";
     Pt.forEach(function(p){
       if(!still){p.x+=p.vx+Math.sin(t/2600+p.ph)*.18;p.y+=p.vy;if(p.y<-12){p.y=H+12;p.x=rnd()*W}if(p.x<-12)p.x=W+12;if(p.x>W+12)p.x=-12}
       var a=.25+.75*Math.max(0,Math.sin(t/1000*p.sp+p.ph)),R=p.r*8;
-      ctx.globalAlpha=a*.55;ctx.drawImage(sprite(p.c),p.x-R,p.y-R,R*2,R*2);
+      var g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,R);g.addColorStop(0,p.c);g.addColorStop(1,"rgba(0,0,0,0)");
+      ctx.globalAlpha=a*.55;ctx.fillStyle=g;ctx.beginPath();ctx.arc(p.x,p.y,R,0,6.283);ctx.fill();
       ctx.globalAlpha=a;ctx.fillStyle="#fff";ctx.beginPath();ctx.arc(p.x,p.y,p.r*.6,0,6.283);ctx.fill();
     });
   }
