@@ -13,16 +13,28 @@ Egyszerű HTML/CSS/JavaScript, nem kell hozzá telepíteni semmit.
 
 ```
 weboldal/
-├── index.html            ← a főoldal (bemutatkozás, kutatás, mozgás, kapcsolat)
-├── tartalom.js           ← a PROJEKTEK és az ÍRÁSOK listája – ezt szerkeszted a legtöbbet
-├── connectome.html       ← projekt: 3D fázishullám-konnektom
-├── cikk-konnektom.html   ← írás: „Mi az a konnektom?”
-├── projekt-konnektom.html ← projektleírás: a konnektom-modell részletesen (képletek, eredmények, grafikon)
+├── index.html            ← csak átirányít az angol főoldalra (en/) – a Search Console-címke miatt NE töröld
+├── en/                   ← ANGOL oldalak
+│   ├── index.html            ← főoldal (bemutatkozás, kutatás, mozgás, kapcsolat)
+│   ├── connectome.html       ← projekt: 3D fázishullám-konnektom
+│   ├── cikk-konnektom.html   ← írás: „What is a connectome?”
+│   └── projekt-konnektom.html ← projektleírás (képletek, eredmények, grafikon)
+├── hu/                   ← MAGYAR oldalak – ugyanazokkal a fájlnevekkel, mint az en/ mappában
+├── tartalom.js           ← a PROJEKTEK és az ÍRÁSOK listája (mindkét nyelv) – ezt szerkeszted a legtöbbet
+├── projekt-konnektom.html, cikk-konnektom.html, connectome.html
+│                         ← régi címek: átirányítanak az en/ változatra (a régi linkek miatt maradnak)
 ├── assets/
 │   ├── style.css         ← kinézet: színek, betűk, elrendezés
-│   └── site.js           ← működés: nyelvváltó, háttér, kártyák (ehhez nem kell nyúlni)
+│   ├── site.js           ← működés: nyelvváltó, háttér, kártyák (ehhez nem kell nyúlni)
+│   ├── connectome.css/js ← a konnektom-szimuláció közös kódja (az en/ és a hu/ oldal is ezt használja)
+│   └── cookie.js         ← süti-banner + Google Analytics
 ├── _sablon/
-│   └── cikk-sablon.html  ← üres minta új cikkhez vagy projektoldalhoz
+│   ├── cikk-sablon-en.html  ← üres angol minta új cikkhez (az en/ mappába másold)
+│   └── cikk-sablon-hu.html  ← üres magyar minta (a hu/ mappába, ugyanazzal a névvel)
 └── README.md             ← ez a leírás
 ```
+
+**Két nyelv, két külön oldal:** az angol szöveg az `en/`, a magyar a `hu/` mappában van.
+Ha valamit mindkét nyelven módosítasz (menü, lábléc, script-verzió), **mindkét fájlban** írd át.
+Az EN/HU gomb a másik mappa azonos nevű fájljára visz, ezért egy oldal két változata mindig ugyanazt a nevet kapja.
 

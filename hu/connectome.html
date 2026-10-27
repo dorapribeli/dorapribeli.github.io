@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="hu" data-lang="hu">
+<head>
+<meta charset="utf-8">
+<!-- Süti-banner + Google Analytics (csak hozzájárulás után): assets/cookie.js -->
+<script src="../assets/cookie.js?v=3" defer></script>
+
+<!-- SEO és megosztási előnézet -->
+<meta name="description" content="Interaktív szimuláció: Kuramoto-oszcillátorok agyszerű kisvilág-hálózaton – hogyan tolja el a csatolás a hálózatot a rendezett és a rugalmas állapot között.">
+<link rel="canonical" href="https://dorapribeli.github.io/hu/connectome.html">
+<link rel="alternate" hreflang="en" href="https://dorapribeli.github.io/en/connectome.html">
+<link rel="alternate" hreflang="hu" href="https://dorapribeli.github.io/hu/connectome.html">
+<link rel="alternate" hreflang="x-default" href="https://dorapribeli.github.io/en/connectome.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Dóra Pribeli">
+<meta property="og:title" content="Fázishullám-konnektom – interaktív szimuláció – Pribeli Dóra">
+<meta property="og:description" content="Interaktív szimuláció: Kuramoto-oszcillátorok agyszerű kisvilág-hálózaton – hogyan tolja el a csatolás a hálózatot a rendezett és a rugalmas állapot között.">
+<meta property="og:url" content="https://dorapribeli.github.io/hu/connectome.html">
+<meta property="og:locale" content="hu_HU">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:image" content="https://dorapribeli.github.io/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Fázishullám-konnektom – interaktív szimuláció – Pribeli Dóra</title>
+<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/connectome.css?v=1">
+</head>
+<body>
+<canvas id="gl" data-i18n-aria="aGl" aria-label="Forgatható 3D agymodell Kuramoto-oszcillátorokkal"></canvas>
+
+<div class="hud tl">
+  <div class="toprow">
+    <a class="back" href="index.html">← Dora Pribeli</a>
+    <a class="back" href="projekt-konnektom.html" data-i18n="about">ℹ︎ A modellről</a>
+    <nav class="lang" aria-label="Language / Nyelv"><a href="../en/connectome.html" hreflang="en">EN</a><a href="../hu/connectome.html" hreflang="hu" aria-current="page">HU</a></nav>
+  </div>
+  <div class="eyebrow">Kuramoto · Watts–Strogatz · N = 180</div>
+  <h1 id="title">Fázishullámok az <em>éber</em> agyban</h1>
+  <p class="lede" data-i18n="lede">Minden pont egy agyterület, amely saját ritmusában oszcillál. A kapcsolatok összehúzzák a fázisokat; a szinkron koalíciók folyamatosan születnek és szétesnek.</p>
+</div>
+
+<div class="hud tr">
+  <div class="panel seg" role="group" data-i18n-aria="aView" aria-label="Nézet">
+    <button data-s="0" aria-pressed="true"><span data-i18n="b0">Éber</span> <kbd>1</kbd></button>
+    <button data-s="1" aria-pressed="false"><span data-i18n="b1">Pszichedelikus</span> <kbd>2</kbd></button>
+    <button data-s="2" aria-pressed="false"><span data-i18n="b2">Egymás mellett</span> <kbd>S</kbd></button>
+  </div>
+  <div class="panel ctrl">
+    <label for="kIn" data-i18n="kL">Csatolás K</label><input id="kIn" type="range" min="0" max="5" step="0.1" value="2"><output id="kOut">2.0</output>
+    <label for="exIn" data-i18n="exL">Plusz élek</label><input id="exIn" type="range" min="0" max="50" step="5" value="20" aria-describedby="exOut"><output id="exOut">20%</output>
+    <label for="spIn" data-i18n="spL">Sebesség</label><input id="spIn" type="range" min="0.1" max="2" step="0.05" value="0.8"><output id="spOut">0.80</output>
+  </div>
+  <div class="btns">
+    <button class="btn" id="bPause"><span id="pauseTxt" data-i18n="pause">Szünet</span><kbd>Space</kbd></button>
+    <button class="btn" id="bReset"><span data-i18n="reset">Újraindítás</span><kbd>R</kbd></button>
+    <button class="btn" id="bFull"><span data-i18n="full">Teljes képernyő</span><kbd>F</kbd></button>
+  </div>
+</div>
+
+<div class="hud bl panel">
+  <div class="tline"><span><span data-i18n="time">idő</span>&nbsp; <b>t = <span id="tVal">0.0</span></b></span><span id="tPhase">beállás…</span></div>
+  <div class="cmp">
+    <div class="st" data-s="0">
+      <span class="lab" data-i18n="labW">Éber</span>
+      <span class="big"><small>R</small><span id="r0">0.00</span></span>
+      <dl class="stats"><dt>⟨R⟩</dt><dd id="m0">…</dd><dt>σ<sub>R</sub></dt><dd id="s0">…</dd></dl>
+    </div>
+    <div class="st" data-s="1">
+      <span class="lab" data-i18n="labP">Pszichedelikus</span>
+      <span class="big"><small>R</small><span id="r1">0.00</span></span>
+      <dl class="stats"><dt>⟨R⟩</dt><dd id="m1">…</dd><dt>σ<sub>R</sub></dt><dd id="s1">…</dd></dl>
+    </div>
+  </div>
+  <canvas id="spark" data-i18n-aria="aSpark" aria-label="A két állapot R(t) idősora egymásra rajzolva, az utolsó 40 időegység"></canvas>
+</div>
+
+<div class="hud br panel">
+  <div class="circles">
+    <figure data-s="0"><canvas id="c0" data-i18n-aria="aC0" aria-label="Az éber állapot fázisai az egységkörön"></canvas><figcaption style="color:var(--wake)" data-i18n="capW">éber</figcaption></figure>
+    <figure data-s="1"><canvas id="c1" data-i18n-aria="aC1" aria-label="A pszichedelikus állapot fázisai az egységkörön"></canvas><figcaption style="color:var(--psy)" data-i18n="capP">pszich.</figcaption></figure>
+  </div>
+  <div class="cap" data-i18n="cap">fázisok az egységkörön · nyíl = R</div>
+</div>
+
+<div class="splitlab" style="left:27%;color:var(--wake)" data-i18n="labW">Éber</div>
+<div class="splitlab" style="left:73%;color:var(--psy)" data-i18n="labP">Pszichedelikus</div>
+
+<div class="hud bc legend" aria-hidden="true">
+  <span><b data-i18n="lg1">pont</b> <span data-i18n="lg1b">= agyterület</span></span><span><b data-i18n="lg2">szín</b> = <span data-i18n="lg2b">fázis</span> θ</span><span><b data-i18n="lg3">felvillanás</b> = θ ≈ 0</span><span><b data-i18n="lg4">világító él</b> <span data-i18n="lg4b">= két vége fázisban</span></span>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* Beágyazott mód azonnal, még a three.js betöltése előtt (különben a vezérlők egy pillanatra látszanak) */
+if(/[?&](embed|logo)\b/.test(location.search))document.documentElement.classList.add('embed');
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="../assets/connectome.js?v=1"></script>
+</body>
+</html>

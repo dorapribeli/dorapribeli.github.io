@@ -1,6 +1,7 @@
 /* =========================================================
    TARTALOM – itt tudod hozzáadni a projekteket és az írásokat.
-   Az oldal ebből a listából rajzolja ki a kártyákat.
+   Az oldal ebből a listából rajzolja ki a kártyákat – az angol oldal (en/) az "en",
+   a magyar (hu/) a "hu" szövegeket használja. Ez a fájl közös a két nyelvnek.
 
    Szabályok, hogy ne romoljon el:
    - Minden szöveg idézőjelek "..." között van.
@@ -17,7 +18,7 @@
    title     – cím angolul (en) és magyarul (hu)
    text      – 1–2 mondatos leírás
    linkText  – (nem kötelező) a link szövege
-   image     – (nem kötelező) kép a kártyára, pl. "kepek/projekt2.jpg" (a kepek mappába tedd)
+   image     – (nem kötelező) kép a kártyára, pl. "../kepek/projekt2.jpg" (a fő mappa kepek mappájába tedd)
    featured  – (nem kötelező) true = nagy, kiemelt kártya
    links     – (nem kötelező) több gomb a kártya alján, pl.
                links: [ { href: "a.html", text: { en: "…", hu: "…" } }, { href: "b.html", text: {…} } ]
@@ -49,8 +50,9 @@ var PROJECTS = [
 
 
 /* ---------------- ÍRÁSOK ----------------
-   Új cikk: másold a _sablon/cikk-sablon.html fájlt a fő mappába új néven
-   (pl. cikk-interocepcio.html), írd meg benne a cikket, majd adj hozzá ide egy blokkot.
+   Új cikk: másold a _sablon/cikk-sablon-en.html fájlt az en/, a _sablon/cikk-sablon-hu.html
+   fájlt a hu/ mappába, UGYANAZZAL az új névvel (pl. cikk-interocepcio.html), írd meg bennük
+   a cikket, majd adj hozzá ide egy blokkot. A link csak a fájlnév (a nyelvi mappán belül marad).
 */
 var POSTS = [
 

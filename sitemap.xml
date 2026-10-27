@@ -1,8 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Új oldalnál/cikknél adj hozzá egy <url> blokkot, és frissítsd a lastmod dátumot -->
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://dorapribeli.github.io/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://dorapribeli.github.io/projekt-konnektom.html</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://dorapribeli.github.io/connectome.html</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://dorapribeli.github.io/cikk-konnektom.html</loc><lastmod>2026-10-22</lastmod></url>
+<!-- Új oldalnál/cikknél másold le az egyik oldalpárt (en + hu blokk), írd át a fájlnevet mind a 8 helyen, és frissítsd a lastmod dátumot -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url><loc>https://dorapribeli.github.io/en/</loc><lastmod>2026-10-27</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dorapribeli.github.io/en/"/>
+    <xhtml:link rel="alternate" hreflang="hu" href="https://dorapribeli.github.io/hu/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dorapribeli.github.io/en/"/>
+  </url>
+  <url><loc>https://dorapribeli.github.io/hu/</loc><lastmod>2026-10-27</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dorapribeli.github.io/en/"/>
+    <xhtml:link rel="alternate" hreflang="hu" href="https://dorapribeli.github.io/hu/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dorapribeli.github.io/en/"/>
+  </url>
+  <url><loc>https://dorapribeli.github.io/en/projekt-konnektom.html</loc><lastmod>2026-10-27</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dorapribeli.github.io/en/projekt-konnektom.html"/>
+    <xhtml:link rel="alternate" hreflang="hu" href="https://dorapribeli.github.io/hu/projekt-konnektom.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dorapribeli.github.io/en/projekt-konnektom.html"/>
+  </url>
+  <url><loc>https://dorapribeli.github.io/hu/projekt-konnektom.html</loc><lastmod>2026-10-27</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dorapribeli.github.io/en/projekt-konnektom.html"/>
+    <xhtml:link rel="alternate" hreflang="hu" href="https://dorapribeli.github.io/hu/projekt-konnektom.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dorapribeli.github.io/en/projekt-konnektom.html"/>
+  </url>
+  <url><loc>https://dorapribeli.github.io/en/connectome.html</loc><lastmod>2026-10-27</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dorapribeli.github.io/en/connectome.html"/>
+    <xhtml:link rel="alternate" hreflang="hu" href="https://dorapribeli.github.io/hu/connectome.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dorapribeli.github.io/en/connectome.html"/>
+  </url>
+  <url><loc>https://dorapribeli.github.io/hu/connectome.html</loc><lastmod>2026-10-27</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dorapribeli.github.io/en/connectome.html"/>
+    <xhtml:link rel="alternate" hreflang="hu" href="https://dorapribeli.github.io/hu/connectome.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dorapribeli.github.io/en/connectome.html"/>
+  </url>
+  <url><loc>https://dorapribeli.github.io/en/cikk-konnektom.html</loc><lastmod>2026-10-27</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dorapribeli.github.io/en/cikk-konnektom.html"/>
+    <xhtml:link rel="alternate" hreflang="hu" href="https://dorapribeli.github.io/hu/cikk-konnektom.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dorapribeli.github.io/en/cikk-konnektom.html"/>
+  </url>
+  <url><loc>https://dorapribeli.github.io/hu/cikk-konnektom.html</loc><lastmod>2026-10-27</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dorapribeli.github.io/en/cikk-konnektom.html"/>
+    <xhtml:link rel="alternate" hreflang="hu" href="https://dorapribeli.github.io/hu/cikk-konnektom.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dorapribeli.github.io/en/cikk-konnektom.html"/>
+  </url>
 </urlset>

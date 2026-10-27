@@ -1,0 +1,326 @@
+/* A fázishullám-konnektom oldal (en/connectome.html, hu/connectome.html) közös kódja.
+   A szövegek az I18N részben vannak; mindkét HTML ezt a fájlt tölti be. */
+/* ---------- Nyelv (EN/HU) – az oldal nyelvét a <html lang> adja ---------- */
+const I18N={
+  hu:{title:'Fázishullám-konnektom – interaktív szimuláció – Pribeli Dóra',
+    heading:v=>v===2?'Fázishullámok a <em>két</em> agyban':'Fázishullámok '+(v?'a':'az')+' <em>'+(v?'pszichedelikus':'éber')+'</em> agyban',
+    lede:'Minden pont egy agyterület, amely saját ritmusában oszcillál. A kapcsolatok összehúzzák a fázisokat; a szinkron koalíciók folyamatosan születnek és szétesnek.',
+    about:'ℹ︎ A modellről',aView:'Nézet',b0:'Éber',b1:'Pszichedelikus',b2:'Egymás mellett',kL:'Csatolás K',exL:'Plusz élek',spL:'Sebesség',
+    pause:'Szünet',resume:'Folytatás',reset:'Újraindítás',full:'Teljes képernyő',time:'idő',settling:'beállás…',paused:'szünet',
+    labW:'Éber',labP:'Pszichedelikus',capW:'éber',capP:'pszich.',cap:'fázisok az egységkörön · nyíl = R',
+    lg1:'pont',lg1b:'= agyterület',lg2:'szín',lg2b:'fázis',lg3:'felvillanás',lg4:'világító él',lg4b:'= két vége fázisban',
+    tSplit:'Ugyanazok az oszcillátorok, két hálózat',tPsy:(n,p)=>'+'+n+' véletlen keresztkötés ('+p+'%)',tWake:'Moduláris kisvilág-hálózat',
+    tExtra:(n,p)=>'Pszichedelikus hálózat: +'+n+' él ('+p+'%)',tReset:'Új, közös kezdőfázisok',
+    aGl:'Forgatható 3D agymodell Kuramoto-oszcillátorokkal',aSpark:'A két állapot R(t) idősora egymásra rajzolva, az utolsó 40 időegység',
+    aC0:'Az éber állapot fázisai az egységkörön',aC1:'A pszichedelikus állapot fázisai az egységkörön'},
+  en:{title:'Phase-wave connectome – interactive simulation – Dóra Pribeli',
+    heading:v=>v===2?'Phase waves in <em>two</em> brains':'Phase waves in the <em>'+(v?'psychedelic':'waking')+'</em> brain',
+    lede:'Every dot is a brain region oscillating at its own rhythm. Connections pull the phases together; synchronised coalitions keep forming and dissolving.',
+    about:'ℹ︎ About the model',aView:'View',b0:'Waking',b1:'Psychedelic',b2:'Side by side',kL:'Coupling K',exL:'Extra edges',spL:'Speed',
+    pause:'Pause',resume:'Resume',reset:'Restart',full:'Fullscreen',time:'time',settling:'settling…',paused:'paused',
+    labW:'Waking',labP:'Psychedelic',capW:'waking',capP:'psych.',cap:'phases on the unit circle · arrow = R',
+    lg1:'dot',lg1b:'= brain region',lg2:'colour',lg2b:'phase',lg3:'flash',lg4:'glowing edge',lg4b:'= both ends in phase',
+    tSplit:'Same oscillators, two networks',tPsy:(n,p)=>'+'+n+' random shortcuts ('+p+'%)',tWake:'Modular small-world network',
+    tExtra:(n,p)=>'Psychedelic network: +'+n+' edges ('+p+'%)',tReset:'New shared starting phases',
+    aGl:'Rotatable 3D brain model of Kuramoto oscillators',aSpark:'R(t) of both states over the last 40 time units',
+    aC0:'Phases of the waking state on the unit circle',aC1:'Phases of the psychedelic state on the unit circle'}
+};
+let LANG=document.documentElement.lang==='hu'?'hu':'en';   // a nyelvet az oldal <html lang> attribútuma adja (en/ vagy hu/ mappa)
+function t(k,...a){const v=I18N[LANG][k];return typeof v==='function'?v(...a):v}
+function applyLang(l){
+  LANG=l;
+  document.documentElement.lang=l;document.title=t('title');
+  document.querySelectorAll('[data-i18n]').forEach(e=>{e.textContent=t(e.dataset.i18n)});
+  document.querySelectorAll('[data-i18n-aria]').forEach(e=>e.setAttribute('aria-label',t(e.dataset.i18nAria)));
+  dispatchEvent(new Event('langchange'));
+}
+applyLang(LANG);
+
+/* ---------- Kuramoto-mag: hálózat + dinamika (tiszta függvények) ---------- */
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function gauss(rnd){let u=0,v=0;while(u===0)u=rnd();while(v===0)v=rnd();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)}
+
+/* Kéregfelszín-szerű pontfelhő két féltekével */
+function brainPoint(rnd){
+  for(;;){
+    const x=gauss(rnd),y=gauss(rnd),z=gauss(rnd),n=Math.hypot(x,y,z)||1;
+    let dx=x/n,dy=y/n,dz=z/n;
+    const r=0.86+0.14*Math.sqrt(rnd());
+    const s=dx>=0?1:-1;
+    let px=dx*r*0.62+s*0.07, py=dy*r*0.74, pz=dz*r*1.05;
+    if(py<-0.3) py=-0.3+(py+0.3)*0.45;           // lapos koponyaalap
+    px*=1-0.16*Math.max(0,pz);                    // keskenyebb homloklebeny
+    py+= -0.12*pz*pz+0.06;                        // ívelt profil
+    if(Math.abs(px)<0.05) continue;               // hosszanti agyhasadék
+    return [px*2.2,py*2.2,pz*2.2];
+  }
+}
+
+function buildNetwork(opts){
+  const {N=180,k=8,p=0.05,extraFrac=0.2,seed=7}=opts||{};
+  const rnd=mulberry32(seed);
+  const raw=[];for(let i=0;i<N;i++)raw.push(brainPoint(rnd));
+  // mohó legközelebbi-szomszéd bejárás → a gyűrű szomszédai térben is közel vannak
+  const used=new Uint8Array(N),order=[];let cur=0;
+  for(let i=1;i<N;i++) if(raw[i][2]<raw[cur][2]) cur=i;
+  for(let step=0;step<N;step++){
+    order.push(cur);used[cur]=1;let best=-1,bd=1e9;
+    for(let j=0;j<N;j++) if(!used[j]){const d=(raw[j][0]-raw[cur][0])**2+(raw[j][1]-raw[cur][1])**2+(raw[j][2]-raw[cur][2])**2;if(d<bd){bd=d;best=j}}
+    cur=best;
+  }
+  const pos=order.map(i=>raw[i]);
+  const key=(a,b)=>a<b?a*N+b:b*N+a, set=new Set(), edges=[];
+  for(let i=0;i<N;i++)for(let m=1;m<=k/2;m++){const j=(i+m)%N;set.add(key(i,j));edges.push([i,j,0])}
+  // Watts–Strogatz átkötés
+  for(const e of edges){
+    if(rnd()<p){
+      let t,tries=0;do{t=Math.floor(rnd()*N);tries++}while((t===e[0]||set.has(key(e[0],t)))&&tries<100);
+      if(tries<100){set.delete(key(e[0],e[1]));e[1]=t;e[2]=1;set.add(key(e[0],t))}
+    }
+  }
+  // véletlen funkcionális keresztkötések (módosult állapot)
+  const nExtra=Math.round(extraFrac*edges.length);let added=0;
+  while(added<nExtra){const a=Math.floor(rnd()*N),b=Math.floor(rnd()*N);if(a!==b&&!set.has(key(a,b))){set.add(key(a,b));edges.push([a,b,2]);added++}}
+  const E=edges.length,ei=new Int32Array(E),ej=new Int32Array(E),kind=new Uint8Array(E);
+  edges.forEach((e,q)=>{ei[q]=e[0];ej[q]=e[1];kind[q]=e[2]});
+  const omega=new Float64Array(N),theta=new Float64Array(N);
+  for(let i=0;i<N;i++){omega[i]=2*Math.PI+gauss(rnd);theta[i]=rnd()*2*Math.PI}
+  return {N,pos,ei,ej,kind,E,omega,theta,rnd};
+}
+
+/* RK4 lépés; w[q] = élsúly (a keresztkötések súlya 0→1 között animálható) */
+function makeStepper(net){
+  const {N,ei,ej,E,omega}=net;
+  const k1=new Float64Array(N),k2=new Float64Array(N),k3=new Float64Array(N),k4=new Float64Array(N),tmp=new Float64Array(N);
+  function rhs(th,out,w,K){
+    let W=0;for(let q=0;q<E;q++)W+=w[q];
+    const Kn=K/(2*W/N);
+    for(let i=0;i<N;i++)out[i]=omega[i];
+    for(let q=0;q<E;q++){if(w[q]===0)continue;const i=ei[q],j=ej[q],d=Kn*w[q]*Math.sin(th[j]-th[i]);out[i]+=d;out[j]-=d}
+  }
+  return function step(th,dt,w,K){
+    rhs(th,k1,w,K);
+    for(let i=0;i<N;i++)tmp[i]=th[i]+0.5*dt*k1[i];rhs(tmp,k2,w,K);
+    for(let i=0;i<N;i++)tmp[i]=th[i]+0.5*dt*k2[i];rhs(tmp,k3,w,K);
+    for(let i=0;i<N;i++)tmp[i]=th[i]+dt*k3[i];rhs(tmp,k4,w,K);
+    for(let i=0;i<N;i++){th[i]+=dt/6*(k1[i]+2*k2[i]+2*k3[i]+k4[i]);if(th[i]>1e4)th[i]-=2*Math.PI*1000}
+  };
+}
+function orderParam(th){let c=0,s=0;for(let i=0;i<th.length;i++){c+=Math.cos(th[i]);s+=Math.sin(th[i])}c/=th.length;s/=th.length;return [Math.hypot(c,s),Math.atan2(s,c)]}
+
+/* ---------------------------- alkalmazás ---------------------------- */
+(function(){
+// ?embed: csak a forgó 3D agy, vezérlők nélkül (a főoldali projektkártya ezt ágyazza be)
+const LOGO=/[?&]logo\b/.test(location.search);   // ?logo: átlátszó háttér, álló nézet (logókép készítéséhez)
+const EMBED=LOGO||/[?&]embed\b/.test(location.search);
+if(EMBED)document.documentElement.classList.add('embed');
+// 50%-nyi véletlen keresztkötést előre legenerálunk; a „Plusz élek” csúszka ennek egy
+// elejét kapcsolja be (0–50%), így a hálózat folyamatosan átalakítható.
+const net=buildNetwork({N:180,k:8,p:0.05,extraFrac:0.5,seed:7});
+const {N,E,ei,ej,kind,pos}=net;
+const extraIdx=[];for(let q=0;q<E;q++)if(kind[q]===2)extraIdx.push(q);   // keresztkötések, létrehozási sorrendben
+const baseE=E-extraIdx.length;   // az éber hálózat élszáma
+let nExtraOn=0,extraPct=20;
+const step=makeStepper(net);
+
+/* Két párhuzamos szimuláció: ugyanazok az ωᵢ és θᵢ(0), csak a hálózat más. */
+const TH=[Float64Array.from(net.theta),Float64Array.from(net.theta)];
+const W=[new Float64Array(E),new Float64Array(E)];
+for(let q=0;q<E;q++){W[0][q]=kind[q]===2?0:1;W[1][q]=kind[q]===2?0:1}
+/* A pszichedelikus hálózat: az éber élek + az első m keresztkötés (m = pct% · éber élszám). */
+function setExtra(pct){extraPct=pct;nExtraOn=Math.round(pct/100*baseE);
+  for(let i=0;i<extraIdx.length;i++)W[1][extraIdx[i]]=i<nExtraOn?1:0}
+setExtra(extraPct);
+
+const h0=location.hash;
+let view=h0==='#pszichedelikus'?1:h0==='#egymasmellett'?2:0;   // 0 éber, 1 pszichedelikus, 2 egymás mellett
+let K=2,speed=0.8,paused=false,simT=0,acc=0,sampleAcc=0;
+const TRANS=6, hist=[];   // {t,a,b}
+
+/* ---- three.js ---- */
+const canvas=document.getElementById('gl');
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:LOGO,preserveDrawingBuffer:LOGO});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.setClearColor(0x05060c,LOGO?0:1);
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(42,1,0.1,100);
+camera.position.set(0,0.4,7.2);
+const ptVert=`attribute float size;attribute vec3 acol;varying vec3 vC;uniform float pr;
+void main(){vC=acol;vec4 mv=modelViewMatrix*vec4(position,1.);gl_PointSize=size*pr*(300./-mv.z);gl_Position=projectionMatrix*mv;}`;
+const ptFrag=`varying vec3 vC;void main(){float d=length(gl_PointCoord-.5)*2.;if(d>1.)discard;
+float core=smoothstep(.35,0.,d);float halo=pow(1.-d,2.2)*.55;gl_FragColor=vec4(vC*(core+halo),1.);}`;
+const ptMats=[];
+const mkPtMat=()=>{const m=new THREE.ShaderMaterial({uniforms:{pr:{value:renderer.getPixelRatio()}},vertexShader:ptVert,fragmentShader:ptFrag,blending:THREE.AdditiveBlending,depthWrite:false,transparent:true});ptMats.push(m);return m};
+
+/* fázis → szín: állapotonként saját koszinusz-paletta */
+const PAL=[{a:[.30,.52,.78],b:[.22,.28,.22],d:[.00,.08,.16]},{a:[.55,.45,.55],b:[.45,.45,.45],d:[.00,.33,.67]}];
+const ACC=[[0.36,0.78,1.0],[1.0,0.37,0.70]];
+function phaseCol(s,th,out,o){const P=PAL[s],t=th/(2*Math.PI);for(let c=0;c<3;c++)out[o+c]=P.a[c]+P.b[c]*Math.cos(2*Math.PI*(t+P.d[c]))}
+
+function makeBrain(s){
+  const g=new THREE.Group();scene.add(g);
+  const DUST=3200,rd=mulberry32(99);
+  const dPos=new Float32Array(DUST*3),dCol=new Float32Array(DUST*3),dSize=new Float32Array(DUST);
+  for(let i=0;i<DUST;i++){dPos.set(brainPoint(rd),i*3);dSize[i]=0.012+rd()*0.02}
+  const dGeo=new THREE.BufferGeometry();
+  dGeo.setAttribute('position',new THREE.BufferAttribute(dPos,3));dGeo.setAttribute('acol',new THREE.BufferAttribute(dCol,3));dGeo.setAttribute('size',new THREE.BufferAttribute(dSize,1));
+  g.add(new THREE.Points(dGeo,mkPtMat()));
+  const lPos=new Float32Array(E*6),lCol=new Float32Array(E*6);
+  for(let q=0;q<E;q++){lPos.set(pos[ei[q]],q*6);lPos.set(pos[ej[q]],q*6+3)}
+  const lGeo=new THREE.BufferGeometry();
+  lGeo.setAttribute('position',new THREE.BufferAttribute(lPos,3));lGeo.setAttribute('color',new THREE.BufferAttribute(lCol,3));
+  g.add(new THREE.LineSegments(lGeo,new THREE.LineBasicMaterial({vertexColors:true,blending:THREE.AdditiveBlending,transparent:true,depthWrite:false})));
+  const nPos=new Float32Array(N*3),nCol=new Float32Array(N*3),nSize=new Float32Array(N);
+  pos.forEach((p,i)=>nPos.set(p,i*3));
+  const nGeo=new THREE.BufferGeometry();
+  nGeo.setAttribute('position',new THREE.BufferAttribute(nPos,3));nGeo.setAttribute('acol',new THREE.BufferAttribute(nCol,3));nGeo.setAttribute('size',new THREE.BufferAttribute(nSize,1));
+  g.add(new THREE.Points(nGeo,mkPtMat()));
+  const col=new Float32Array(N*3),fire=new Float32Array(N);
+  const b={s,g,col,presence:0,x:0,y:0,
+    update(th,R){
+      const pr=b.presence;g.visible=pr>0.005;if(!g.visible)return;
+      for(let i=0;i<N;i++){const f=Math.pow((1+Math.cos(th[i]))/2,4);fire[i]=f;phaseCol(s,th[i],col,i*3);
+        const k=(0.30+1.25*f)*pr;nCol[i*3]=col[i*3]*k;nCol[i*3+1]=col[i*3+1]*k;nCol[i*3+2]=col[i*3+2]*k;nSize[i]=0.11*(0.75+1.35*f)}
+      nGeo.attributes.acol.needsUpdate=true;nGeo.attributes.size.needsUpdate=true;
+      for(let q=0;q<E;q++){
+        const kd=kind[q];
+        if(kd===2&&(s===0||W[1][q]===0)){for(let c=0;c<6;c++)lCol[q*6+c]=0;continue}
+        const i=ei[q],j=ej[q],fl=Math.pow((1+Math.cos(th[i]-th[j]))/2,8)*Math.max(fire[i],fire[j]);
+        let base,gain,white;
+        if(kd===0){base=0.045;gain=0.55;white=0}else if(kd===1){base=0.07;gain=0.9;white=0.35}else{base=0.08;gain=1.0;white=0.45}
+        const I=(base+gain*fl)*pr;
+        for(let c=0;c<3;c++){const v=((col[i*3+c]+col[j*3+c])*0.5*(1-white)+white)*I;lCol[q*6+c]=v;lCol[q*6+3+c]=v}
+      }
+      lGeo.attributes.color.needsUpdate=true;
+      const glow=(0.05+0.32*R)*pr,a=ACC[s];
+      for(let i=0;i<DUST;i++){dCol[i*3]=a[0]*glow;dCol[i*3+1]=a[1]*glow;dCol[i*3+2]=a[2]*glow}
+      dGeo.attributes.acol.needsUpdate=true;
+    }};
+  return b;
+}
+const brains=[makeBrain(0),makeBrain(1)];
+let rotX=0.25,rotY=-0.9;
+
+/* ---- HUD ---- */
+const $=id=>document.getElementById(id);
+const COL=['#5cc8ff','#ff5fb2'];
+const spark=$('spark'),sctx=spark.getContext('2d'),circs=[$('c0'),$('c1')].map(c=>({c,x:c.getContext('2d')}));
+let D=1;
+function fit(c){const r=c.getBoundingClientRect();c.width=Math.max(1,r.width*D);c.height=Math.max(1,r.height*D)}
+function stats(key){const xs=[];for(const h of hist)if(h.t>=TRANS&&h.t>=simT-120)xs.push(h[key]);
+  if(xs.length<40)return null;const m=xs.reduce((a,b)=>a+b,0)/xs.length;return [m,Math.sqrt(xs.reduce((a,b)=>a+(b-m)*(b-m),0)/xs.length)]}
+function drawSpark(st){
+  const w=spark.width,h=spark.height,span=40,t0=Math.max(0,simT-span),pad=4*D,padB=14*D,yOf=v=>h-padB-(h-pad-padB)*v,xOf=t=>(t-t0)/span*w;
+  sctx.clearRect(0,0,w,h);
+  // beállási (tranziens) szakasz: a statisztika ezt még nem számolja
+  if(t0<TRANS){sctx.fillStyle='rgba(160,175,215,.08)';sctx.fillRect(xOf(t0),yOf(1),xOf(Math.min(TRANS,t0+span))-xOf(t0),yOf(0)-yOf(1))}
+  // időtengely: felirat 10 időegységenként
+  sctx.fillStyle='rgba(138,147,171,.9)';sctx.font=`${10*D}px IBM Plex Mono, monospace`;sctx.textAlign='center';
+  for(let tt=Math.ceil(t0/10)*10;tt<=t0+span+1e-9;tt+=10){const x=xOf(tt);
+    sctx.strokeStyle='rgba(160,175,215,.14)';sctx.beginPath();sctx.moveTo(x,yOf(0));sctx.lineTo(x,yOf(0)+3*D);sctx.stroke();
+    sctx.fillText(String(tt),Math.min(w-8*D,Math.max(8*D,x)),h-2*D)}
+  sctx.textAlign='left';
+  sctx.strokeStyle='rgba(160,175,215,.14)';sctx.lineWidth=1;
+  for(const y of [0,0.5,1]){sctx.beginPath();sctx.moveTo(0,yOf(y));sctx.lineTo(w,yOf(y));sctx.stroke()}
+  sctx.fillStyle='rgba(138,147,171,.9)';sctx.font=`${10*D}px IBM Plex Mono, monospace`;
+  sctx.fillText('1',2*D,yOf(1)+10*D);sctx.fillText('0',2*D,yOf(0)-3*D);
+  const order=view===1?[0,1]:[1,0];      // az aktív görbe kerül felülre
+  for(const s of order){
+    const on=view===2||view===s,key=s?'b':'a';
+    if(st[s]){sctx.setLineDash([4*D,4*D]);sctx.strokeStyle=COL[s];sctx.globalAlpha=on?0.7:0.3;sctx.lineWidth=1*D;
+      sctx.beginPath();sctx.moveTo(0,yOf(st[s][0]));sctx.lineTo(w,yOf(st[s][0]));sctx.stroke();sctx.setLineDash([])}
+    sctx.globalAlpha=on?1:0.35;sctx.strokeStyle=COL[s];sctx.lineWidth=(on?2:1.2)*D;sctx.beginPath();let first=true;
+    for(const p of hist){if(p.t<t0)continue;const x=(p.t-t0)/span*w,y=yOf(p[key]);if(first){sctx.moveTo(x,y);first=false}else sctx.lineTo(x,y)}
+    sctx.stroke();sctx.globalAlpha=1;
+  }
+}
+const tmp=new Float32Array(3);
+function drawCircle(s,th,R,psi){
+  const {c,x}=circs[s],w=c.width,h=c.height,cx=w/2,cy=h/2,r=Math.min(w,h)*0.40;
+  x.clearRect(0,0,w,h);
+  x.strokeStyle='rgba(160,175,215,.35)';x.lineWidth=D;x.beginPath();x.arc(cx,cy,r,0,7);x.stroke();
+  x.strokeStyle='rgba(160,175,215,.12)';x.beginPath();x.moveTo(cx-r,cy);x.lineTo(cx+r,cy);x.moveTo(cx,cy-r);x.lineTo(cx,cy+r);x.stroke();
+  for(let i=0;i<N;i++){phaseCol(s,th[i],tmp,0);
+    x.fillStyle=`rgb(${Math.min(255,tmp[0]*255)|0},${Math.min(255,tmp[1]*255)|0},${Math.min(255,tmp[2]*255)|0})`;
+    x.beginPath();x.arc(cx+r*Math.cos(th[i]),cy-r*Math.sin(th[i]),2*D,0,7);x.fill()}
+  const ex=cx+r*R*Math.cos(psi),ey=cy-r*R*Math.sin(psi);
+  x.strokeStyle=x.fillStyle=COL[s];x.lineWidth=2.4*D;x.beginPath();x.moveTo(cx,cy);x.lineTo(ex,ey);x.stroke();
+  const an=Math.atan2(ey-cy,ex-cx),hs=7*D;
+  x.beginPath();x.moveTo(ex,ey);x.lineTo(ex-hs*Math.cos(an-0.45),ey-hs*Math.sin(an-0.45));x.lineTo(ex-hs*Math.cos(an+0.45),ey-hs*Math.sin(an+0.45));x.fill();
+}
+
+/* ---- vezérlők ---- */
+const segBtns=[...document.querySelectorAll('.seg button')];
+let toastTimer;
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('on'),1800)}
+function setView(v,announce=true){
+  if(v===view&&announce)return;view=v;
+  segBtns.forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.s===v)));
+  document.documentElement.style.setProperty('--accent',v===2?'var(--ink)':v===1?'var(--psy)':'var(--wake)');
+  document.body.classList.toggle('split',v===2);
+  document.querySelectorAll('.st').forEach(e=>e.classList.toggle('dim',v!==2&&+e.dataset.s!==v));
+  document.querySelectorAll('.circles figure').forEach(e=>e.classList.toggle('dim',v!==2&&+e.dataset.s!==v));
+  $('title').innerHTML=t('heading',v);
+  if(announce)toast(v===2?t('tSplit'):v?t('tPsy',nExtraOn,extraPct):t('tWake'));
+}
+segBtns.forEach(b=>b.addEventListener('click',()=>setView(+b.dataset.s)));
+$('kIn').addEventListener('input',e=>{K=+e.target.value;$('kOut').textContent=K.toFixed(1);hist.length=0;simT=0});
+$('exIn').addEventListener('input',e=>{setExtra(+e.target.value);$('exOut').textContent=extraPct+'%';hist.length=0;simT=0});
+$('exIn').addEventListener('change',()=>toast(t('tExtra',nExtraOn,extraPct)));
+$('spIn').addEventListener('input',e=>{speed=+e.target.value;$('spOut').textContent=speed.toFixed(2)});
+$('spIn').value=speed;$('spOut').textContent=speed.toFixed(2);
+function reset(){const r=net.rnd;for(let i=0;i<N;i++){const v=r()*2*Math.PI;TH[0][i]=v;TH[1][i]=v}hist.length=0;simT=0;toast(t('tReset'))}
+function togglePause(){paused=!paused;const p=$('pauseTxt');p.dataset.i18n=paused?'resume':'pause';p.textContent=t(p.dataset.i18n)}
+function full(){const d=document;if(!d.fullscreenElement)d.documentElement.requestFullscreen?.().catch(()=>{});else d.exitFullscreen?.()}
+$('bPause').addEventListener('click',togglePause);$('bReset').addEventListener('click',reset);$('bFull').addEventListener('click',full);
+addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;const k=e.key.toLowerCase();
+  if(k==='1')setView(0);else if(k==='2')setView(1);else if(k==='s'||k==='3')setView(2);
+  else if(k===' '){e.preventDefault();togglePause()}else if(k==='r')reset();else if(k==='f')full()});
+setView(view,false);
+addEventListener('langchange',()=>{$('title').innerHTML=t('heading',view)});
+
+/* ---- forgatás / nagyítás ---- */
+let drag=null,idle=0,zoom=1;
+canvas.addEventListener('pointerdown',e=>{drag={x:e.clientX,y:e.clientY};canvas.setPointerCapture(e.pointerId)});
+canvas.addEventListener('pointermove',e=>{if(!drag)return;rotY+=(e.clientX-drag.x)*0.006;rotX=Math.max(-1.2,Math.min(1.2,rotX+(e.clientY-drag.y)*0.006));drag={x:e.clientX,y:e.clientY};idle=0});
+canvas.addEventListener('pointerup',()=>drag=null);canvas.addEventListener('pointercancel',()=>drag=null);
+canvas.addEventListener('wheel',e=>{e.preventDefault();zoom=Math.max(0.6,Math.min(1.7,zoom*(1+e.deltaY*0.001)))},{passive:false});
+function resize(){const w=innerWidth,h=innerHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();
+  D=Math.min(devicePixelRatio,2);fit(spark);circs.forEach(o=>fit(o.c));
+  ptMats.forEach(m=>m.uniforms.pr.value=renderer.getPixelRatio()*(EMBED?1.7:w<700?0.8:1))}
+addEventListener('resize',resize);resize();
+
+/* ---- fő ciklus ---- */
+const DT=0.02;let last=performance.now();
+function frame(now){
+  const rdt=Math.min(0.05,(now-last)/1000);last=now;
+  if(!paused){acc+=speed*rdt;
+    while(acc>=DT){step(TH[0],DT,W[0],K);step(TH[1],DT,W[1],K);simT+=DT;acc-=DT;sampleAcc+=DT;
+      if(sampleAcc>=0.05){sampleAcc-=0.05;hist.push({t:simT,a:orderParam(TH[0])[0],b:orderParam(TH[1])[0]})}}
+    while(hist.length&&hist[0].t<simT-130)hist.shift();}
+  // elrendezés: egy agy középen, vagy kettő egymás mellett (álló képernyőn egymás alatt)
+  const portrait=innerWidth<innerHeight,ease=Math.min(1,rdt*4);
+  brains.forEach((b,s)=>{
+    const tp=view===2||view===s?1:0;b.presence+=(tp-b.presence)*Math.min(1,rdt*5);
+    const off=view===2?(s?1:-1)*(portrait?2.6:2.9):0;
+    const tx=portrait?0:off,ty=portrait?-off:0;b.x+=(tx-b.x)*ease;b.y+=(ty-b.y)*ease;
+    b.g.position.set(b.x,b.y,0);b.g.rotation.set(rotX,rotY,0);
+  });
+  const camZ=LOGO?5.6:EMBED?4.9:(view===2?(portrait?15:12.5):(innerWidth<700?9.7:7.2))*zoom;
+  camera.position.z+=(camZ-camera.position.z)*ease;
+  idle+=rdt;if(EMBED&&!LOGO)rotY+=rdt*0.22;else if(!drag&&idle>1.5)rotY+=rdt*0.12;
+  const op=[orderParam(TH[0]),orderParam(TH[1])],st=[stats('a'),stats('b')];
+  brains.forEach((b,s)=>b.update(TH[s],op[s][0]));
+  renderer.render(scene,camera);
+  $('tVal').textContent=simT.toFixed(1);
+  $('tPhase').textContent=simT<TRANS?t('settling'):(paused?t('paused'):'');
+  for(const s of [0,1]){
+    $('r'+s).textContent=op[s][0].toFixed(2);
+    $('m'+s).textContent=st[s]?st[s][0].toFixed(3):'…';$('s'+s).textContent=st[s]?st[s][1].toFixed(3):'…';
+    drawCircle(s,TH[s],op[s][0],op[s][1]);
+  }
+  drawSpark(st);
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+})();

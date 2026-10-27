@@ -1,18 +1,13 @@
 /* Dóra Pribeli – közös script: nyelvváltó, háttér, projektlista, animációk.
    Ezt általában nem kell szerkesztened; a tartalom a tartalom.js-ben van. */
-/* ---------- Language toggle ---------- */
+/* ---------- Nyelvváltó: az EN/HU linkek a másik nyelvű oldalra visznek (en/ ↔ hu/ mappa) ---------- */
+var SITE_LANG=document.documentElement.lang==="hu"?"hu":"en";
+var ASSETS=(document.currentScript&&document.currentScript.src)||"assets/site.js"; // ehhez képest töltjük a logót
 (function(){
-  var root=document.documentElement;
-  // Az oldal címe a <body data-title-en="…" data-title-hu="…"> attribútumokból jön
-  var titles={en:document.body.dataset.titleEn||document.title,hu:document.body.dataset.titleHu||document.title};
-  function set(l){
-    root.dataset.lang=l; root.lang=l; document.title=titles[l];
-    document.querySelectorAll(".lang button").forEach(function(b){b.setAttribute("aria-pressed",b.dataset.set===l)});
-    try{localStorage.setItem("lang",l)}catch(e){}
-  }
-  var saved=null; try{saved=localStorage.getItem("lang")}catch(e){}
-  set(saved||((navigator.language||"").toLowerCase().indexOf("hu")===0?"hu":"en"));
-  document.querySelectorAll(".lang button").forEach(function(b){b.addEventListener("click",function(){set(b.dataset.set)})});
+  // a görgetési pozíció (#projects stb.) megmarad váltáskor
+  document.querySelectorAll(".lang a").forEach(function(a){
+    a.addEventListener("click",function(){if(location.hash)a.href=a.href.split("#")[0]+location.hash});
+  });
 })();
 
 /* ---------- Decorative background layer (injected on every page) ---------- */
@@ -31,11 +26,11 @@
 
 /* ---------- Projects and posts from tartalom.js ---------- */
 (function(){
-  function bi(tag,obj,cls){ // one element per language
+  function bi(tag,obj,cls){ // az oldal nyelvén ({en:…, hu:…} közül a megfelelő)
     var frag=document.createDocumentFragment();
     if(!obj)return frag;
     if(typeof obj==="string")obj={en:obj,hu:obj};
-    ["en","hu"].forEach(function(l){var e=document.createElement(tag);e.lang=l;e.textContent=obj[l]||obj.en||"";if(cls)e.className=cls;frag.appendChild(e)});
+    var e=document.createElement(tag);e.textContent=obj[SITE_LANG]||obj.en||"";if(cls)e.className=cls;frag.appendChild(e);
     return frag;
   }
   var pl=document.getElementById("project-list");
@@ -281,8 +276,8 @@
 
 /* ---------- Logo (still image of the 3D brain from the project) + favicon ---------- */
 (function(){
-  document.querySelectorAll(".logo").forEach(function(a){a.insertAdjacentHTML("afterbegin",'<img src="assets/logo.png?v=2" alt="" width="60" height="38">')});
-  var ic=document.createElement("link");ic.rel="icon";ic.type="image/png";ic.href="assets/favicon.png?v=2";document.head.appendChild(ic);
+  document.querySelectorAll(".logo").forEach(function(a){a.insertAdjacentHTML("afterbegin",'<img src="'+new URL("logo.png?v=2",ASSETS).href+'" alt="" width="60" height="38">')});
+  var ic=document.createElement("link");ic.rel="icon";ic.type="image/png";ic.href=new URL("favicon.png?v=2",ASSETS).href;document.head.appendChild(ic);
 })();
 
 /* ---------- Floating "Support me" button (right side) with the Ko-fi donation panel ---------- */

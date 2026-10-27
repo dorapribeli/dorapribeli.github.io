@@ -38,9 +38,9 @@ header.nav{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--b
 .links a{font-size:14px;color:var(--mute);text-decoration:none;padding:6px 10px;border-radius:999px;white-space:nowrap}
 .links a:hover{color:var(--ink);background:var(--line)}
 .lang{display:flex;border:1px solid var(--line);border-radius:999px;padding:2px;flex:none}
-.lang button{all:unset;cursor:pointer;font:500 12px var(--f-mono);letter-spacing:.06em;padding:5px 10px;border-radius:999px;color:var(--mute)}
-.lang button[aria-pressed="true"]{background:linear-gradient(120deg,var(--wake),var(--psy));color:#071028}
-.lang button:focus-visible,.btn:focus-visible{outline:2px solid var(--wake);outline-offset:2px}
+.lang button,.lang a{all:unset;cursor:pointer;font:500 12px var(--f-mono);letter-spacing:.06em;padding:5px 10px;border-radius:999px;color:var(--mute)}
+.lang button[aria-pressed="true"],.lang a[aria-current="page"]{background:linear-gradient(120deg,var(--wake),var(--psy));color:#071028}
+.lang button:focus-visible,.lang a:focus-visible,.btn:focus-visible{outline:2px solid var(--wake);outline-offset:2px}
 @media (max-width:760px){
   .nav .wrap{flex-wrap:wrap;height:auto;padding-top:10px;padding-bottom:6px;gap:6px 12px}
   .lang{margin-left:auto}
@@ -174,7 +174,7 @@ section::before{content:"";position:absolute;top:0;left:8%;right:8%;height:1px;b
 .btn:hover{border-color:var(--wake);box-shadow:0 0 24px -6px var(--wake)}
 .btn.primary{background:linear-gradient(120deg,var(--wake),var(--psy));color:#02121a;box-shadow:0 0 30px -6px rgba(20,227,154,.7)}
 .btn.primary:hover{box-shadow:0 0 40px -4px rgba(20,227,154,.9),0 0 24px -8px var(--wake)}
-.lang button[aria-pressed="true"]{background:linear-gradient(120deg,var(--wake),var(--psy));color:#02121a}
+.lang button[aria-pressed="true"],.lang a[aria-current="page"]{background:linear-gradient(120deg,var(--wake),var(--psy));color:#02121a}
 
 /* Cards with neon gradient borders */
 .card{background:linear-gradient(160deg,rgba(6,16,30,.9),rgba(2,6,14,.94)) padding-box,linear-gradient(135deg,rgba(34,216,240,.7),rgba(61,85,255,.25) 40%,rgba(20,227,154,.6) 70%,rgba(168,239,60,.55)) border-box;border:1px solid transparent}
